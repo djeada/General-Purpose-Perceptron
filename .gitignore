@@ -1,0 +1,121 @@
+# Compiled Python files
+__pycache__/
+*.py[cod]
+
+# Byte-compiled and optimized Python files
+*.pyo
+*.pyc
+__pycache__/
+$py.class
+
+# Editor/IDE-specific files
+.vscode/
+.idea/
+*.swp
+*~
+.project
+*.iml
+*.pydevproject
+/.vscode
+/.idea
+
+# Virtual environment
+venv/
+env/
+/.venv
+
+# Dependency management
+pip-log.txt
+pip-delete-this-directory.txt
+requirements.txt
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+htmlcov/
+.tox/
+.coverage
+.coverage.*.html
+.coverage.*.xml
+.coverage.*.txt
+.coverage.*.zip
+.coverage.*.data
+.coverage.*.svg
+.coverage.*.css
+.coverage.*.py
+.coverage.*.rst
+.coverage.*.pdf
+.coverage.*.json
+.coverage.*.pickle
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+*.db
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Compiled source
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Backup and temporary files
+*.bak
+*.swp
+*~
+\#*\#
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb
+
+# Flask
+instance/
+.webassets-cache
+
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+
+# Pytest
+__pycache__/
+.cache/
+.pytest_cache/
+pytestdebug.log
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Coverage reports
+.coverage
+.coverage.*
+htmlcov/
+
+# Ignore .env file containing sensitive information
+.env
+
+# Ignore development and environment files
+.env.local
+.env.development
+.env.test
+.env.production
