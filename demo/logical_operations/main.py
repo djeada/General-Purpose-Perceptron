@@ -40,14 +40,15 @@ def prepare_data(
 def train_perceptron(X_train: np.ndarray, y_train: np.ndarray) -> Perceptron:
     perceptron = Perceptron(
         input_size=2,
+        output_size=1,
         activation_func=step_activation,
         activation_deriv=dummy_derivative,
-        error_func=mean_squared_error,
+        error_func=lambda a, b: a - b,
         learning_rate=0.01,
         l1_ratio=0,
         l2_ratio=0,
     )
-    perceptron.train(X_train, y_train, epochs=1000, batch_size=1, verbose=True)
+    perceptron.train(X_train, y_train, epochs=100, batch_size=1, verbose=True)
     return perceptron
 
 

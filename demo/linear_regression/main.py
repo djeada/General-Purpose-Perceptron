@@ -28,14 +28,15 @@ def prepare_data(n: int = 100) -> tuple[np.ndarray, np.ndarray]:
 def train_perceptron(X_train_scaled: np.ndarray, y_train: np.ndarray) -> Perceptron:
     perceptron = Perceptron(
         input_size=1,
+        output_size=1,
         activation_func=linear_activation,
         activation_deriv=linear_activation_derivative,
-        error_func=mean_squared_error_func,
+        error_func=lambda a, b: a - b,
         learning_rate=0.01,
         l1_ratio=0.00001,
         l2_ratio=0.00001,
     )
-    perceptron.train(X_train_scaled, y_train, epochs=1000, batch_size=1, verbose=True)
+    perceptron.train(X_train_scaled, y_train, epochs=1000, batch_size=1)
     return perceptron
 
 
@@ -94,7 +95,7 @@ def visualize(
         perceptron.forward(X_train_scaled),
         color="red",
         linewidth=2,
-        label=f"Perceptron Fit: y = {perceptron.weights[1]:.2f}x + {perceptron.weights[0]:.2f}",
+        label=f"Perceptron Fit: y = {perceptron.weights.flatten()[1]:.2f}x + {perceptron.weights.flatten()[0]:.2f}",
     )
 
     # Add labels and legend
@@ -126,7 +127,7 @@ def main():
 
     print("Real Function: y = 2x + 1")
     print(
-        f"Perceptron Fit: y = {perceptron.weights[1]:0.2}x + {perceptron.weights[0]:0.2}"
+        f"Perceptron Fit: y = {perceptron.weights.flatten()[1]:0.2}x + {perceptron.weights.flatten()[0]:0.2}"
     )
 
     evaluate_and_print_metrics(y_test, predictions)
