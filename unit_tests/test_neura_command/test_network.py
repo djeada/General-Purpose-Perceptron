@@ -70,11 +70,8 @@ def test_network_forward_pass(mock_network):
 
 
 def test_network_backward_pass(mock_network):
-    # Assuming the backward method is implemented in Layer and Perceptron
     error = np.array([[1, 2, 3]])
     mock_network.backward(error)
-    # You need to check if the backward pass has correctly propagated the error.
-    # This might involve checking internal states of layers/neurons.
 
 
 def test_network_update_weights(mock_network):

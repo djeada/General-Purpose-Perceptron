@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from neura_command.perceptron import Perceptron
+from neura_command.neuron.perceptron import Perceptron
 from sklearn.metrics import mean_absolute_error, r2_score, mean_squared_error
 from sklearn.model_selection import train_test_split
 

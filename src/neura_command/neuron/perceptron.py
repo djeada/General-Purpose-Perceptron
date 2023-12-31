@@ -26,6 +26,10 @@ class Perceptron(NeuronInterface):
         self.last_input = None
         self.gradient = None
 
+    @property
+    def input_size(self):
+        return len(self.weights) - 1
+
     def forward(self, X: np.ndarray, add_bias: bool = True) -> np.ndarray:
         if add_bias:
             X = np.c_[np.ones((X.shape[0], 1)), X]  # Add bias term

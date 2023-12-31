@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from neura_command.perceptron import Perceptron
+from neura_command.neuron.perceptron import Perceptron
 
 
 @pytest.fixture
@@ -44,7 +44,8 @@ def test_backward_pass(perceptron_instance):
     perceptron_instance.forward(X_test)  # forward pass to set last_input
     error = y_test - perceptron_instance.forward(X_test)
     input_grad = perceptron_instance.backward(error)
-    assert input_grad.shape == X_test.shape  # Ensure shape of input gradient
+    # The shape of input_grad will have one extra dimension due to the bias term
+    assert input_grad.shape == (X_test.shape[0], X_test.shape[1] + 1)
 
 
 def test_weight_update(perceptron_instance):
