@@ -1,21 +1,23 @@
 import numpy as np
 import pandas as pd
-from neura_command.perceptron import Perceptron
 from typing import List, Tuple
+
+from neura_command.neuron.perceptron import Perceptron
 
 
 def create_dataset() -> Tuple[np.ndarray, np.ndarray]:
-    X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
-    y = np.array([0, 1, 1, 0])  # XOR problem
+    X = np.linspace(-1, 1, 10).reshape(-1, 1)  # Linearly spaced values
+    y = 2 * X + np.random.normal(0, 0.2, X.shape)  # Linear relation with noise
     return X, y
 
 
 def initialize_perceptron(input_size: int, learning_rate: float) -> Perceptron:
     return Perceptron(
         input_size=input_size,
-        activation_func=lambda x: 1 / (1 + np.exp(-x)),  # Sigmoid
-        activation_deriv=lambda x: x * (1 - x),  # Sigmoid Derivative
-        error_func=lambda y_true, y_pred: np.mean((y_true - y_pred) ** 2),  # MSE
+        output_size=1,
+        activation_func=lambda x: x,  # Linear activation
+        activation_deriv=lambda x: 1,  # Derivative of linear activation
+        error_func=lambda a, b: a - b,
         learning_rate=learning_rate,
         l1_ratio=0,
         l2_ratio=0,
@@ -49,15 +51,15 @@ def record_training_progress(
                 "Input": np.round(input_row, 2),
                 "Weight": np.round(weights, 2),
                 "Output": np.round(output_val, 2),
-                "Error": round(error, 4),
+                "Error": np.round(error, 4),
             }
         )
 
 
 def main():
     X, y = create_dataset()
-    perceptron = initialize_perceptron(input_size=2, learning_rate=0.1)
-    training_df = train_perceptron(perceptron, X, y, n_iterations=100)
+    perceptron = initialize_perceptron(input_size=1, learning_rate=0.1)
+    training_df = train_perceptron(perceptron, X, y, n_iterations=10)
     print(training_df.to_string(index=False))
 
 

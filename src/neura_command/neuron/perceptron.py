@@ -17,7 +17,9 @@ class Perceptron(NeuronInterface):
         l2_ratio: float,
     ) -> None:
         # Initialize weights as a matrix
-        self.weights = np.random.randn(input_size + 1, output_size)
+        self.weights = np.random.normal(
+            0, 1 / np.sqrt(input_size), (input_size + 1, output_size)
+        )
         self.activation_func = activation_func
         self.activation_deriv = activation_deriv
         self.error_func = error_func
@@ -32,17 +34,17 @@ class Perceptron(NeuronInterface):
     def input_size(self):
         return self.weights.shape[0] - 1
 
-    def forward(self, X: np.ndarray, add_bias: bool = True) -> np.ndarray:
-        if add_bias:
-            X = np.c_[np.ones((X.shape[0], 1)), X]  # Add bias term
+    def forward(self, X: np.ndarray) -> np.ndarray:
+        # Always add bias term
+        X = np.c_[np.ones((X.shape[0], 1)), X]
         self.last_input = X
         net_input = np.dot(X, self.weights)
         self.last_output = self.activation_func(net_input)
         return self.last_output
 
     def backward(self, error: np.ndarray) -> np.ndarray:
-        output = self.forward(self.last_input, add_bias=False)
-        derivative = error * self.activation_deriv(output)
+        # Compute derivative using last_output since forward was already called
+        derivative = error * self.activation_deriv(self.last_output)
 
         if derivative.ndim == 1:
             derivative = derivative[:, np.newaxis]
@@ -50,7 +52,8 @@ class Perceptron(NeuronInterface):
         self.gradient = -np.dot(self.last_input.T, derivative)
         input_grad = np.dot(derivative, self.weights.T)
 
-        return derivative, input_grad
+        # Exclude the gradient with respect to the bias term
+        return derivative, input_grad[:, 1:]
 
     def update_weights(self):
         l1_term = self.l1_ratio * np.sign(self.weights)
@@ -64,7 +67,7 @@ class Perceptron(NeuronInterface):
                 X_batch = X[i : i + batch_size]
                 y_batch = y[i : i + batch_size]
 
-                output = self.forward(X_batch, add_bias=True)
+                output = self.forward(X_batch)
                 error = self.error_func(y_batch, output)
 
                 self.backward(error)

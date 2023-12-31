@@ -45,11 +45,9 @@ class Perceptron:
 
     @property
     def input_size(self) -> int:
-        """Size of the input layer."""
         return self.weights.shape[0] - 1
 
     def forward(self, X: np.ndarray) -> np.ndarray:
-        """Forward pass through the network."""
         bias_column = np.ones((X.shape[0], 1))
         self.last_input = np.hstack((X, bias_column))
         self.last_output = self.activation_func(np.dot(self.last_input, self.weights))
@@ -71,7 +69,6 @@ class Perceptron:
     def train(
         self, X: np.ndarray, y: np.ndarray, epochs: int = 100, batch_size: int = 1
     ):
-        """Train the network for a fixed number of epochs."""
         for epoch in range(epochs):
             for i in range(0, X.shape[0], batch_size):
                 X_batch = X[i : i + batch_size]
