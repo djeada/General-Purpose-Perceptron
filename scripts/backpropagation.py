@@ -1,109 +1,85 @@
 import numpy as np
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
+
+# Activation function and its derivative
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
 
 
-def sigmoid(z):
-    return 1 / (1 + np.exp(-z))
+def sigmoid_derivative(x):
+    return x * (1 - x)  # This is correct as x is the output of sigmoid
 
 
-def sigmoid_derivative(z):
-    return z * (1 - z)
+# Error function
+def mean_squared_error(y_true, y_pred):
+    return np.mean((y_true - y_pred) ** 2)
 
 
-class Neuron:
-    def __init__(self, n_inputs):
-        self.weights = np.random.rand(n_inputs)
-        self.bias = np.random.rand()
+class Perceptron:
+    def __init__(self, input_size, output_size, learning_rate=0.1):
+        # Adjust weight and bias initialization
+        self.weights = np.random.randn(input_size, output_size)
+        self.bias = np.random.randn(1, output_size)
+        self.learning_rate = learning_rate
+        self.output = None
+        self.input = None
 
-    def calculate_output(self, inputs):
-        self.inputs = np.array(inputs)
-        self.output = sigmoid(np.dot(self.weights, self.inputs) + self.bias)
+    def forward(self, X):
+        self.input = X
+        self.output = sigmoid(np.dot(X, self.weights) + self.bias)
         return self.output
 
-    def calculate_delta(self, target_output=None, weighted_sum_delta=0):
-        if target_output is not None:
-            self.delta = (self.output - target_output) * sigmoid_derivative(self.output)
-        else:
-            self.delta = weighted_sum_delta * sigmoid_derivative(self.output)
+    def backward(self, error):
+        delta = error * sigmoid_derivative(self.output)
+        weight_gradient = np.dot(self.input.T, delta)
+        bias_gradient = np.sum(delta, axis=0, keepdims=True)
+        return delta, weight_gradient, bias_gradient
 
-    def update_weights(self, learning_rate):
-        self.weights -= learning_rate * self.delta * self.inputs
-        self.bias -= learning_rate * self.delta
+    def update_weights(self, weight_gradient, bias_gradient):
+        self.weights += weight_gradient * self.learning_rate
+        self.bias += bias_gradient * self.learning_rate
 
 
 class NeuralNetwork:
-    def __init__(self, n_inputs, n_hidden, n_outputs, learning_rate):
-        self.n_inputs = n_inputs
-        self.n_hidden = n_hidden
-        self.n_outputs = n_outputs
-        self.learning_rate = learning_rate
-
-        self.hidden_layer = [Neuron(n_inputs) for _ in range(n_hidden)]
-        self.output_layer = [Neuron(n_hidden) for _ in range(n_outputs)]
-
-    def forward_propagate(self, inputs):
-        hidden_layer_outputs = [
-            neuron.calculate_output(inputs) for neuron in self.hidden_layer
-        ]
-        return [
-            neuron.calculate_output(hidden_layer_outputs)
-            for neuron in self.output_layer
-        ]
-
-    def back_propagate(self, target_outputs):
-        for i in range(self.n_outputs):
-            self.output_layer[i].calculate_delta(target_outputs[i])
-        for i in range(self.n_hidden):
-            weighted_sum_delta = sum(
-                neuron.weights[i] * neuron.delta for neuron in self.output_layer
+    def __init__(self, layer_sizes, learning_rate=0.1):
+        self.layers = []
+        for i in range(len(layer_sizes) - 1):
+            self.layers.append(
+                Perceptron(layer_sizes[i], layer_sizes[i + 1], learning_rate)
             )
-            self.hidden_layer[i].calculate_delta(weighted_sum_delta=weighted_sum_delta)
 
-    def update_weights(self):
-        for neuron in self.hidden_layer + self.output_layer:
-            neuron.update_weights(self.learning_rate)
+    def forward(self, X):
+        for layer in self.layers:
+            X = layer.forward(X)
+        return X
 
-    def fit(self, training_inputs, training_outputs, epochs):
-        for epoch in range(epochs):
-            for inputs, outputs in zip(training_inputs, training_outputs):
-                self.forward_propagate(inputs)
-                self.back_propagate(outputs)
-                self.update_weights()
+    def backward(self, y):
+        error = y - self.layers[-1].output
+        for layer in reversed(self.layers):
+            delta, weight_gradient, bias_gradient = layer.backward(error)
+            layer.update_weights(weight_gradient, bias_gradient)
+            error = np.dot(delta, layer.weights.T)
 
-    def predict(self, inputs):
-        outputs = self.forward_propagate(inputs)
-        return [
-            np.round(output) for output in outputs
-        ]  # round to 0 or 1 for binary classification
-
-
-inputs = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
-targets = np.array([[0], [1], [1], [1]])
-
-nn = NeuralNetwork(n_inputs=2, n_hidden=2, n_outputs=1, learning_rate=0.5)
-nn.fit(inputs, targets, epochs=1500)
+    def train(self, X, y, epochs):
+        errors = []
+        for _ in range(epochs):
+            output = self.forward(X)
+            self.backward(y)
+            errors.append(mean_squared_error(y, output))
+        return errors
 
 
-def plot(nn, inputs, targets):
-    if inputs.shape[1] != 2:
-        raise ValueError("Can only plot for 2 inputs.")
-    # Generate a grid of points in the input space
-    x1_values = np.linspace(-0.5, 1.5, 100)
-    x2_values = np.linspace(-0.5, 1.5, 100)
-    grid = np.array([[x1, x2] for x1 in x1_values for x2 in x2_values])
+# XOR input and output
+X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+y = np.array([[0], [1], [1], [0]])
 
-    # Compute the output for each point in the grid
-    outputs = np.array([nn.forward_propagate(point)[0] for point in grid])
-    outputs = np.round(outputs).astype(int)  # round to 0 or 1 for binary classification
-
-    # Scatter plot of the grid points, colored by the output
-    plt.scatter(grid[:, 0], grid[:, 1], c=outputs, cmap="viridis", alpha=0.5)
-
-    # Scatter plot of the inputs, colored by the target
-    plt.scatter(inputs[:, 0], inputs[:, 1], c=targets, cmap="viridis", edgecolors="k")
-    plt.title("Decision Boundary")
-    plt.grid(True)
-    plt.show()
-
-
-plot(nn, inputs, targets.ravel())
+# Neural Network initialization and training
+nn = NeuralNetwork([2, 2, 1], learning_rate=0.1)
+errors = nn.train(X, y, 20000)
+print(min(errors))
+# Plotting the error over epochs
+plt.plot(errors)
+plt.xlabel("Epochs")
+plt.ylabel("Mean Squared Error")
+plt.title("Training Error over Epochs with Adjusted Network Architecture")
+plt.show()
