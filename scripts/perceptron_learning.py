@@ -29,7 +29,7 @@ def train_perceptron(
 ) -> pd.DataFrame:
     training_data = []
     for i in range(n_iterations):
-        perceptron.train(X, y, epochs=1, batch_size=1, verbose=False)
+        perceptron.train(X, y, epochs=1, batch_size=1)
         output = perceptron.forward(X)
         error = perceptron.error_func(y, output)
         record_training_progress(i, X, perceptron.weights, output, error, training_data)
@@ -44,14 +44,14 @@ def record_training_progress(
     error: float,
     training_data: List[dict],
 ):
-    for input_row, output_val in zip(X, outputs):
+    for i, (input_row, output_val) in enumerate(list(zip(X, outputs))):
         training_data.append(
             {
                 "Iteration": iteration + 1,
-                "Input": np.round(input_row, 2),
-                "Weight": np.round(weights, 2),
-                "Output": np.round(output_val, 2),
-                "Error": np.round(error, 4),
+                "Input": np.round(input_row, 4),
+                "Weight": np.round(weights, 4),
+                "Output": np.round(output_val, 4),
+                "Error": np.round(error, 4)[i],
             }
         )
 

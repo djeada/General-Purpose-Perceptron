@@ -15,11 +15,6 @@ def dummy_derivative(x: np.ndarray) -> np.ndarray:
     return np.ones_like(x)
 
 
-# Mean Squared Error
-def mean_squared_error(y_true: np.ndarray, y_pred: np.ndarray) -> float:
-    return np.mean((y_true - y_pred) ** 2)
-
-
 def prepare_data(
     n_repeats: int = 100, gate_type: str = "AND"
 ) -> tuple[np.ndarray, np.ndarray]:
@@ -48,7 +43,7 @@ def train_perceptron(X_train: np.ndarray, y_train: np.ndarray) -> Perceptron:
         l1_ratio=0,
         l2_ratio=0,
     )
-    perceptron.train(X_train, y_train, epochs=100, batch_size=1, verbose=True)
+    perceptron.train(X_train, y_train, epochs=100, batch_size=1)
     return perceptron
 
 
