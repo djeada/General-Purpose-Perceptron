@@ -1,5 +1,5 @@
-import pytest
 import numpy as np
+import pytest
 from neura_command.perceptron import Perceptron
 
 
@@ -34,25 +34,23 @@ def test_initialization(perceptron_instance):
 
 def test_forward_pass(perceptron_instance):
     X_test = np.array([[0.5, -0.2]])
-    X_bias_test = np.c_[np.ones((X_test.shape[0], 1)), X_test]
-    output = perceptron_instance._forward_pass(X_bias_test)
+    output = perceptron_instance.forward(X_test)
     assert output.shape == (1,)  # Ensure output shape is correct
 
 
 def test_backward_pass(perceptron_instance):
     X_test = np.array([[0.5, -0.2]])
     y_test = np.array([1])
-    X_bias_test = np.c_[np.ones((X_test.shape[0], 1)), X_test]
-    gradients = perceptron_instance._backward_pass(X_bias_test, y_test)
-    assert (
-        gradients.shape == perceptron_instance.weights.shape
-    )  # Match shape of weights
+    perceptron_instance.forward(X_test)  # forward pass to set last_input
+    error = y_test - perceptron_instance.forward(X_test)
+    input_grad = perceptron_instance.backward(error)
+    assert input_grad.shape == X_test.shape  # Ensure shape of input gradient
 
 
 def test_weight_update(perceptron_instance):
     initial_weights = np.copy(perceptron_instance.weights)
-    gradients = np.ones_like(perceptron_instance.weights)
-    perceptron_instance._update_weights(gradients)
+    perceptron_instance.gradient = np.ones_like(perceptron_instance.weights)
+    perceptron_instance.update_weights()
     for i, weight in enumerate(perceptron_instance.weights):
         # Check if weights are updated (assuming learning rate is not zero)
         assert weight != initial_weights[i]
@@ -62,17 +60,11 @@ def test_training_process(perceptron_instance):
     X_train = np.array([[0.5, -0.2], [0.3, 0.8]])
     y_train = np.array([1, 0])
     initial_error = perceptron_instance.error_func(
-        y_train,
-        perceptron_instance._forward_pass(
-            np.c_[np.ones((X_train.shape[0], 1)), X_train]
-        ),
+        y_train, perceptron_instance.forward(X_train)
     )
     perceptron_instance.train(X_train, y_train, epochs=10, batch_size=1, verbose=False)
     final_error = perceptron_instance.error_func(
-        y_train,
-        perceptron_instance._forward_pass(
-            np.c_[np.ones((X_train.shape[0], 1)), X_train]
-        ),
+        y_train, perceptron_instance.forward(X_train)
     )
     assert final_error < initial_error  # Expect error to decrease after training
 
@@ -81,3 +73,54 @@ def test_prediction(perceptron_instance):
     X_test = np.array([[0.5, -0.2]])
     predictions = perceptron_instance.forward(X_test)
     assert predictions.shape == (1,)  # Ensure correct shape of predictions
+
+
+def test_activation_function_application(perceptron_instance):
+    X_test = np.array([[0.1, 0.2]])
+    raw_output = np.dot(np.c_[np.ones((1, 1)), X_test], perceptron_instance.weights)
+    expected_output = perceptron_instance.activation_func(raw_output)
+    actual_output = perceptron_instance.forward(X_test)
+    assert np.allclose(actual_output, expected_output)
+
+
+def test_gradient_calculation_in_backward(perceptron_instance):
+    X_test = np.array([[0.5, 0.3]])
+    y_test = np.array([0])
+    perceptron_instance.forward(X_test)  # Forward pass
+    error = y_test - perceptron_instance.forward(X_test)
+    perceptron_instance.backward(error)
+    # Check if gradient has been calculated and stored
+    assert perceptron_instance.gradient is not None
+
+
+def test_learning_rate_impact(perceptron_instance):
+    perceptron_instance.learning_rate = 0.1
+    initial_weights = np.copy(perceptron_instance.weights)
+    perceptron_instance.gradient = np.ones_like(perceptron_instance.weights)
+    perceptron_instance.update_weights()
+    # Expect larger change in weights due to higher learning rate
+    assert np.any(np.abs(perceptron_instance.weights - initial_weights) > 0.01)
+
+
+def test_regularization_impact(perceptron_instance):
+    initial_weights = np.copy(perceptron_instance.weights)
+    perceptron_instance.l1_ratio = 0.1
+    perceptron_instance.l2_ratio = 0.1
+    perceptron_instance.gradient = np.zeros_like(perceptron_instance.weights)
+    perceptron_instance.update_weights()
+    # Expect weight change due to regularization even with zero gradient
+    assert np.any(perceptron_instance.weights != initial_weights)
+
+
+def test_error_reduction_multiple_epochs(perceptron_instance):
+    X_train = np.array([[0.5, 0.4], [0.6, 0.7]])
+    y_train = np.array([1, 0])
+    perceptron_instance.train(X_train, y_train, epochs=1, batch_size=1)
+    error_after_first_epoch = perceptron_instance.error_func(
+        y_train, perceptron_instance.forward(X_train)
+    )
+    perceptron_instance.train(X_train, y_train, epochs=10, batch_size=1)
+    error_after_ten_epochs = perceptron_instance.error_func(
+        y_train, perceptron_instance.forward(X_train)
+    )
+    assert error_after_ten_epochs < error_after_first_epoch

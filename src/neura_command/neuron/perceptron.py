@@ -23,43 +23,24 @@ class Perceptron(NeuronInterface):
         self.learning_rate = learning_rate
         self.l1_ratio = l1_ratio
         self.l2_ratio = l2_ratio
+        self.last_input = None
+        self.gradient = None
 
-    def _forward_pass(self, X_batch: np.ndarray) -> np.ndarray:
-        # Ensure X_batch has the bias term and self.weights is correctly sized
-        net_input = np.dot(X_batch, self.weights)  # X_batch should include the bias
+    def forward(self, X: np.ndarray, add_bias: bool = True) -> np.ndarray:
+        if add_bias:
+            X = np.c_[np.ones((X.shape[0], 1)), X]  # Add bias term
+        self.last_input = X
+        net_input = np.dot(X, self.weights)
         return self.activation_func(net_input)
 
-    def _backward_pass(self, X_batch: np.ndarray, y_batch: np.ndarray) -> np.ndarray:
-        output = self._forward_pass(X_batch)
-        error = y_batch - output
-
-        # Ensure error and output are 2D arrays
-        if error.ndim == 1:
-            error = error[:, np.newaxis]
-        if output.ndim == 1:
-            output = output[:, np.newaxis]
-
-        derivative = error * self.activation_deriv(output)
-
-        # Compute gradient
-        dE_dw = -np.dot(X_batch.T, derivative) / X_batch.shape[0]
-
-        # Apply mean if applicable
-        if dE_dw.ndim > 1:
-            dE_dw = np.mean(dE_dw, axis=1, keepdims=True)
-
-        return dE_dw.flatten()
-
     def backward(self, error: np.ndarray) -> np.ndarray:
-        """
-        Perform a backward pass and calculate the gradient of the error
-        with respect to the input. Store the gradient with respect to the weights.
-        """
-        # Calculate output
-        output = self._forward_pass(self.last_input)
-
         # Calculate derivative
+        output = self.forward(self.last_input, add_bias=False)
         derivative = error * self.activation_deriv(output)
+
+        # Ensure derivative is a 2D array for dot product
+        if derivative.ndim == 1:
+            derivative = derivative[:, np.newaxis]
 
         # Compute gradient with respect to weights
         self.gradient = (
@@ -67,27 +48,42 @@ class Perceptron(NeuronInterface):
         )
 
         # Calculate gradient with respect to the input
-        input_grad = np.dot(derivative, self.weights.T)
+        # Reshape weights to 2D if necessary for the dot product
+        if self.weights.ndim == 1:
+            weights_reshaped = self.weights[:, np.newaxis]
+        else:
+            weights_reshaped = self.weights
+
+        input_grad = np.dot(derivative, weights_reshaped.T)
 
         return input_grad
 
     def update_weights(self):
-        """
-        Update the weights using the stored gradients.
-        """
+        # Ensure that self.gradient is a 1D array
+        if self.gradient.ndim > 1:
+            self.gradient = self.gradient.flatten()
+
+        # Calculate L1 and L2 regularization terms
         l1_term = self.l1_ratio * np.sign(self.weights)
         l2_term = self.l2_ratio * self.weights
+
+        # Ensure that l1_term and l2_term are 1D arrays
+        if l1_term.ndim > 1:
+            l1_term = l1_term.flatten()
+        if l2_term.ndim > 1:
+            l2_term = l2_term.flatten()
+
+        # Update weights
         self.weights -= self.learning_rate * (self.gradient + l1_term + l2_term)
 
     def train(self, X, y, epochs, batch_size, verbose=False):
-        X_bias = np.c_[np.ones((X.shape[0], 1)), X]
         for epoch in range(epochs):
             for i in range(0, X.shape[0], batch_size):
-                X_batch = X_bias[i : i + batch_size]
+                X_batch = X[i : i + batch_size]
                 y_batch = y[i : i + batch_size]
 
                 # Forward pass
-                output = self._forward_pass(X_batch)
+                output = self.forward(X_batch, add_bias=True)
 
                 # Compute error
                 error = y_batch - output
@@ -99,10 +95,5 @@ class Perceptron(NeuronInterface):
                 self.update_weights()
 
             if verbose and epoch % 100 == 0:
-                current_error = self.error_func(y, self._forward_pass(X_bias))
+                current_error = self.error_func(y, self.forward(X))
                 print(f"Epoch {epoch}, Error: {current_error}")
-
-    def forward(self, X: np.ndarray) -> np.ndarray:
-        X_bias = np.c_[np.ones((X.shape[0], 1)), X]
-        net_input = np.dot(X_bias, self.weights)
-        return self.activation_func(net_input)

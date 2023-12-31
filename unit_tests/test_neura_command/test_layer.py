@@ -39,8 +39,8 @@ def test_layer_forward_pass():
 
 
 def test_empty_layer():
-    layer = Layer([])
-    assert len(layer.neurons) == 0
+    with pytest.raises(ValueError):
+        _ = Layer([])
 
 
 def test_output_shape():
