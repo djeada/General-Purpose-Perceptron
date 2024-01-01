@@ -28,6 +28,7 @@ def mock_error_func(y_true, y_pred):
 def create_mock_perceptron():
     perceptron = Perceptron(
         input_size=3,
+        output_size=2,
         activation_func=mock_activation_func,
         activation_deriv=mock_activation_deriv,
         error_func=mock_error_func,

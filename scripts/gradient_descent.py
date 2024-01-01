@@ -49,6 +49,18 @@ def train_perceptron(
     return errors
 
 
+def simulate_non_updating_training(
+    perceptron: Perceptron, X_train: np.ndarray, y_train: np.ndarray, epochs: int
+) -> list[float]:
+    errors = []
+    for _ in range(epochs):
+        output = perceptron.forward(X_train)
+        error = perceptron.error_func(y_train, output)
+        mse = np.mean(error ** 2)
+        errors.append(mse)
+    return errors
+
+
 # Plot the training and testing data, regression fit, and error history.
 def plot_results(
     X_train: np.ndarray,
@@ -58,6 +70,7 @@ def plot_results(
     X_range: np.ndarray,
     predictions: np.ndarray,
     errors: list[float],
+    no_gradient_descent_errors: list[float],  # New parameter
 ) -> None:
     plt.figure(figsize=(12, 6))
 
@@ -71,12 +84,18 @@ def plot_results(
     plt.title("Perceptron Regression Fit")
     plt.legend()
 
-    # Plot the error history.
+    # Plot the error history for both training methods.
     plt.subplot(1, 2, 2)
-    plt.plot(errors, label="MSE over epochs")
+    plt.plot(errors, label="Gradient Descent MSE", color="purple")
+    plt.plot(
+        no_gradient_descent_errors,
+        label="No Gradient Descent MSE",
+        color="orange",
+        linestyle="--",
+    )
     plt.xlabel("Epochs")
     plt.ylabel("Mean Squared Error")
-    plt.title("Gradient Descent Error Reduction")
+    plt.title("Error Comparison")
     plt.legend()
     plt.tight_layout()
     plt.show()
@@ -98,7 +117,25 @@ def main() -> None:
     X_range = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
     predictions = perceptron.forward(X_range)
 
-    plot_results(X_train, y_train, X_test, y_test, X_range, predictions, errors)
+    # Simulate non-updating training.
+    perceptron_no_update = initialize_perceptron(
+        input_size=1, output_size=1, learning_rate=0.01
+    )
+    no_gradient_descent_errors = simulate_non_updating_training(
+        perceptron_no_update, X_train, y_train, epochs=100
+    )
+
+    # Generate predictions and plot the results with both approaches.
+    plot_results(
+        X_train,
+        y_train,
+        X_test,
+        y_test,
+        X_range,
+        predictions,
+        errors,
+        no_gradient_descent_errors,
+    )
 
 
 if __name__ == "__main__":

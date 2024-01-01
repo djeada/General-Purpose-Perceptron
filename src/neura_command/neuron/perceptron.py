@@ -24,9 +24,9 @@ class Perceptron:
         self.learning_rate = learning_rate
         self.l1_ratio = l1_ratio
         self.l2_ratio = l2_ratio
-        self.last_input = None
-        self.last_output = None
-        self.last_gradient = None
+        self.last_input = np.array([])
+        self.last_output = np.array([])
+        self.last_gradient = np.array([])
 
     @property
     def input_size(self) -> int:
@@ -37,15 +37,16 @@ class Perceptron:
         return self.weights.shape[1]
 
     def forward(self, X: np.ndarray) -> np.ndarray:
-        bias_column = np.ones((X.shape[0], 1))
-        self.last_input = np.hstack((X, bias_column))
-        self.last_output = self.activation_func(np.dot(self.last_input, self.weights))
+        self.last_input = np.c_[X, np.ones(X.shape[0])]
+        z = self.last_input @ self.weights
+        self.last_output = self.activation_func(z)
         return self.last_output
 
-    def backward(self, error: np.ndarray) -> np.ndarray:
+    def backward(self, error: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
         delta = error * self.activation_deriv(self.last_output)
-        weight_gradient = -np.dot(self.last_input.T, delta)
+        weight_gradient = -self.last_input.T @ delta
         self.last_gradient = weight_gradient
+
         return delta, weight_gradient
 
     def update_weights(self):
@@ -56,12 +57,18 @@ class Perceptron:
 
     def train(self, X: np.ndarray, y: np.ndarray, epochs: int, batch_size: int):
         for epoch in range(epochs):
+            # Iterating through batches
             for i in range(0, X.shape[0], batch_size):
+                # Slicing the batch
                 X_batch = X[i : i + batch_size]
                 y_batch = y[i : i + batch_size]
 
+                # Forward pass
                 output = self.forward(X_batch)
+
+                # Calculating error
                 error = self.error_func(y_batch, output)
 
+                # Backward pass and weight update
                 self.backward(error)
                 self.update_weights()

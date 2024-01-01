@@ -94,18 +94,41 @@ def plot_gradient_evolution(
     plt.show()
 
 
+def plot_decision_boundary(nn: NeuralNetwork, X: np.ndarray, y: np.ndarray) -> None:
+    # Set min and max values and give it some padding
+    x_min, x_max = X[:, 0].min() - 0.1, X[:, 0].max() + 0.1
+    y_min, y_max = X[:, 1].min() - 0.1, X[:, 1].max() + 0.1
+    h = 0.01
+
+    # Generate a grid of points with distance h between them
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
+
+    # Predict the function value for the whole grid
+    Z = nn.forward(np.c_[xx.ravel(), yy.ravel()])[-1]
+    Z = Z.reshape(xx.shape)
+
+    # Plot the contour and training examples
+    plt.contourf(xx, yy, Z, levels=[0, 0.5, 1], cmap=plt.cm.Spectral, alpha=0.8)
+    plt.scatter(X[:, 0], X[:, 1], c=y.ravel(), cmap=plt.cm.Spectral)
+    plt.title("Decision Boundary for XOR problem")
+    plt.xlabel("X1")
+    plt.ylabel("X2")
+    plt.show()
+
+
 def main() -> None:
     # XOR input and output
     X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
     y = np.array([[0], [1], [1], [0]])
 
     # Neural Network initialization and training
-    nn = NeuralNetwork([2, 2, 1], learning_rate=0.1)
+    nn = NeuralNetwork([2, 2, 1])
     errors, weight_history, gradient_history = nn.train(X, y, 20000)
 
     # Plotting error and gradient evolution
     plot_training_error(errors)
     plot_gradient_evolution(gradient_history, nn)
+    plot_decision_boundary(nn, X, y)
 
 
 if __name__ == "__main__":
