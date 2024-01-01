@@ -10,7 +10,7 @@ This directory contains a collection of scripts that demonstrate various concept
 
 ## Usage
 
-To run these examples, navigate to the `examples` directory and execute the desired script. For example:
+To run these examples, navigate to the `concept_demos` directory and execute the desired script. For example:
 
 ```bash
 python backpropagation.py
@@ -18,4 +18,4 @@ python backpropagation.py
 
 ## Prerequisites
 
-Ensure you have the neura_command library installed and properly configured in your environment before running these scripts.
+Ensure you have the `neura_command` library installed and properly configured in your environment before running these scripts.

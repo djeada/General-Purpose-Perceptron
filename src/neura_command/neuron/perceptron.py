@@ -1,8 +1,10 @@
 import numpy as np
 from typing import Callable
 
+from neura_command.neuron.neuron_interface import NeuronInterface
 
-class Perceptron:
+
+class Perceptron(NeuronInterface):
     def __init__(
         self,
         input_size: int,
