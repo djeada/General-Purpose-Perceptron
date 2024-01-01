@@ -1,5 +1,5 @@
 import numpy as np
-from typing import Callable
+from typing import Callable, Tuple
 
 from neura_command.neuron.neuron_interface import NeuronInterface
 
@@ -44,11 +44,10 @@ class Perceptron(NeuronInterface):
         self.last_output = self.activation_func(z)
         return self.last_output
 
-    def backward(self, error: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    def backward(self, error: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         delta = error * self.activation_deriv(self.last_output)
         weight_gradient = -self.last_input.T @ delta
         self.last_gradient = weight_gradient
-
         return delta, weight_gradient
 
     def update_weights(self):
