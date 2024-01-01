@@ -1,10 +1,7 @@
-import numpy as np
 from typing import List
-from neura_command.neuron.neuron_interface import NeuronInterface
 
-
-from typing import List
 import numpy as np
+
 from neura_command.neuron.neuron_interface import NeuronInterface
 
 

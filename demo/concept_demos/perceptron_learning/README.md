@@ -105,7 +105,7 @@ $$y = -b / w_2$$
 
 which is undefined because we are dividing by zero. In this case, the decision boundary line is vertical and given by:
 
-$$x = -b / w_1$$
+g$$x = -b / w_1$$
 
 Substituting our perceptron's weights and bias into this equation gives:
 

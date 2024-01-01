@@ -1,7 +1,7 @@
-import pytest
 import numpy as np
-from neura_command.neuron.neuron_interface import NeuronInterface
+import pytest
 
+from neura_command.neuron.neuron_interface import NeuronInterface
 from src.neura_command.layer.layer import Layer
 
 

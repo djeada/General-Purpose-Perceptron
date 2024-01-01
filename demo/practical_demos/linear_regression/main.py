@@ -1,17 +1,10 @@
-import numpy as np
 import matplotlib.pyplot as plt
-from neura_command.neuron.perceptron import Perceptron
-from sklearn.metrics import mean_absolute_error, r2_score, mean_squared_error
+import numpy as np
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 
-
-# Activation and Error Functions
-def linear_activation(x: np.ndarray) -> np.ndarray:
-    return x
-
-
-def linear_activation_derivative(x: np.ndarray) -> np.ndarray:
-    return np.ones_like(x)
+from neura_command.network_utils.activation_functions import LinearActivation
+from neura_command.neuron.perceptron import Perceptron
 
 
 def mean_squared_error_func(y_true: np.ndarray, y_pred: np.ndarray) -> float:
@@ -29,8 +22,7 @@ def train_perceptron(X_train_scaled: np.ndarray, y_train: np.ndarray) -> Percept
     perceptron = Perceptron(
         input_size=1,
         output_size=1,
-        activation_func=linear_activation,
-        activation_deriv=linear_activation_derivative,
+        activation_func=LinearActivation(),
         error_func=lambda a, b: a - b,
         learning_rate=0.01,
         l1_ratio=0.00001,

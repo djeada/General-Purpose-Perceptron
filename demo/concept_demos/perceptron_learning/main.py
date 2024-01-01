@@ -1,8 +1,10 @@
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
 from typing import List, Tuple
 
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+from neura_command.network_utils.activation_functions import LinearActivation
 from neura_command.neuron.perceptron import Perceptron
 
 
@@ -16,8 +18,7 @@ def initialize_perceptron(input_size: int, learning_rate: float) -> Perceptron:
     return Perceptron(
         input_size=input_size,
         output_size=1,
-        activation_func=lambda x: x,  # Linear activation
-        activation_deriv=lambda x: 1,  # Derivative of linear activation
+        activation_func=LinearActivation(),
         error_func=lambda a, b: a - b,
         learning_rate=learning_rate,
         l1_ratio=0,

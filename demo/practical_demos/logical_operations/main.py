@@ -1,18 +1,10 @@
 import numpy as np
 from matplotlib import pyplot as plt
-from neura_command.neuron.perceptron import Perceptron
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
-
-# Activation Function
-def step_activation(x: np.ndarray) -> np.ndarray:
-    return np.where(x >= 0, 1, 0)
-
-
-# Dummy Derivative (not used but required by Perceptron class)
-def dummy_derivative(x: np.ndarray) -> np.ndarray:
-    return np.ones_like(x)
+from neura_command.network_utils.activation_functions import StepActivation
+from neura_command.neuron.perceptron import Perceptron
 
 
 def prepare_data(
@@ -36,8 +28,7 @@ def train_perceptron(X_train: np.ndarray, y_train: np.ndarray) -> Perceptron:
     perceptron = Perceptron(
         input_size=2,
         output_size=1,
-        activation_func=step_activation,
-        activation_deriv=dummy_derivative,
+        activation_func=StepActivation(),
         error_func=lambda a, b: a - b,
         learning_rate=0.01,
         l1_ratio=0,

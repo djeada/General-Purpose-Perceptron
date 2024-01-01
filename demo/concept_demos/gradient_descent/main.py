@@ -1,8 +1,11 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 from sklearn.datasets import make_regression
 from sklearn.model_selection import train_test_split
+
+from neura_command.network_utils.activation_functions import LinearActivation
 from neura_command.neuron.perceptron import Perceptron
+
 
 # Generate a synthetic regression dataset.
 def generate_dataset(
@@ -25,8 +28,7 @@ def initialize_perceptron(
     return Perceptron(
         input_size=input_size,
         output_size=output_size,
-        activation_func=lambda x: x,
-        activation_deriv=lambda x: np.ones_like(x),
+        activation_func=LinearActivation(),
         error_func=lambda y_true, y_pred: y_true - y_pred,
         learning_rate=learning_rate,
         l1_ratio=0,

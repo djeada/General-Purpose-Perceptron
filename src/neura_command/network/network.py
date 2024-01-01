@@ -1,4 +1,5 @@
 from typing import Callable, List
+
 import numpy as np
 
 from src.neura_command.layer.layer import Layer

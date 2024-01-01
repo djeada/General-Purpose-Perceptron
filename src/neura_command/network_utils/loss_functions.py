@@ -17,10 +17,10 @@ class LossFunction(ABC):
 
 class MSELoss(LossFunction):
     def compute(self, y_true: np.ndarray, y_pred: np.ndarray) -> float:
-        return np.mean((y_pred - y_true) ** 2)
+        return np.mean((y_true - y_pred) ** 2)
 
     def derivative(self, y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
-        return 2 * (y_pred - y_true) / y_true.size
+        return 2 * (y_pred - y_true)
 
 
 class CrossEntropyLoss(LossFunction):

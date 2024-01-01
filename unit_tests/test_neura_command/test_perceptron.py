@@ -3,25 +3,19 @@ import pytest
 from sklearn.datasets import make_regression
 from sklearn.model_selection import train_test_split
 
+from neura_command.network_utils.activation_functions import SigmoidActivation
 from neura_command.neuron.perceptron import Perceptron
 
 
 @pytest.fixture
 def perceptron_instance():
-    def sigmoid(x):
-        return 1 / (1 + np.exp(-x))
-
-    def sigmoid_derivative(x):
-        return sigmoid(x) * (1 - sigmoid(x))
-
     def mean_squared_error(y_true, y_pred):
         return np.mean(np.square(y_true - y_pred))
 
     return Perceptron(
         input_size=2,
         output_size=1,
-        activation_func=sigmoid,
-        activation_deriv=sigmoid_derivative,
+        activation_func=SigmoidActivation(),
         error_func=mean_squared_error,
         learning_rate=0.01,
         l1_ratio=0.01,

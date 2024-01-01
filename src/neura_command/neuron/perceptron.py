@@ -1,6 +1,8 @@
-import numpy as np
 from typing import Callable, Tuple
 
+import numpy as np
+
+from neura_command.network_utils.activation_functions import ActivationFunction
 from neura_command.neuron.neuron_interface import NeuronInterface
 
 
@@ -9,8 +11,7 @@ class Perceptron(NeuronInterface):
         self,
         input_size: int,
         output_size: int,
-        activation_func: Callable[[np.ndarray], np.ndarray],
-        activation_deriv: Callable[[np.ndarray], np.ndarray],
+        activation_func: ActivationFunction,
         learning_rate: float = 0.1,
         error_func: Callable[[np.ndarray, np.ndarray], np.ndarray] = lambda a, b: a - b,
         l1_ratio: float = 0.0,
@@ -21,7 +22,6 @@ class Perceptron(NeuronInterface):
             0, 1 / np.sqrt(input_size), (input_size + 1, output_size)
         )
         self.activation_func = activation_func
-        self.activation_deriv = activation_deriv
         self.error_func = error_func
         self.learning_rate = learning_rate
         self.l1_ratio = l1_ratio
@@ -41,11 +41,11 @@ class Perceptron(NeuronInterface):
     def forward(self, X: np.ndarray) -> np.ndarray:
         self.last_input = np.c_[X, np.ones(X.shape[0])]
         z = self.last_input @ self.weights
-        self.last_output = self.activation_func(z)
+        self.last_output = self.activation_func.compute(z)
         return self.last_output
 
     def backward(self, error: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
-        delta = error * self.activation_deriv(self.last_output)
+        delta = error * self.activation_func.derivative(self.last_output)
         weight_gradient = -self.last_input.T @ delta
         self.last_gradient = weight_gradient
         return delta, weight_gradient

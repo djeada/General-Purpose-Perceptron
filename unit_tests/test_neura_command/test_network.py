@@ -1,5 +1,6 @@
-import pytest
 import numpy as np
+import pytest
+
 from neura_command.layer.layer import Layer
 from neura_command.network.network import Network
 from neura_command.neuron.perceptron import Perceptron

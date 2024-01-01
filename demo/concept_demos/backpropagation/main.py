@@ -1,18 +1,12 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from neura_command.neuron.perceptron import Perceptron
 from typing import List, Tuple
 
-# Activation function and its derivative
-def sigmoid(x: np.ndarray) -> np.ndarray:
-    return 1 / (1 + np.exp(-x))
+import matplotlib.pyplot as plt
+import numpy as np
+
+from neura_command.network_utils.activation_functions import BasicSigmoidActivation
+from neura_command.neuron.perceptron import Perceptron
 
 
-def sigmoid_derivative(sigmoid_output: np.ndarray) -> np.ndarray:
-    return sigmoid_output * (1 - sigmoid_output)
-
-
-# Error function
 def mean_squared_error(y_true: np.ndarray, y_pred: np.ndarray) -> float:
     return np.mean(np.square(y_true - y_pred))
 
@@ -24,8 +18,7 @@ class NeuralNetwork:
                 input_size=layer_sizes[i],
                 output_size=layer_sizes[i + 1],
                 learning_rate=learning_rate,
-                activation_func=sigmoid,
-                activation_deriv=sigmoid_derivative,
+                activation_func=BasicSigmoidActivation(),
                 error_func=lambda a, b: a - b,
                 l1_ratio=0,
                 l2_ratio=0,
