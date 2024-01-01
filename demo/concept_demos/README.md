@@ -13,7 +13,7 @@ This directory contains a collection of scripts that demonstrate various concept
 To run these examples, navigate to the `concept_demos` directory and execute the desired script. For example:
 
 ```bash
-python backpropagation.py
+python main.py
 ```
 
 ## Prerequisites
