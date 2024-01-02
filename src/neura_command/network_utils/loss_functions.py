@@ -15,6 +15,14 @@ class LossFunction(ABC):
         pass
 
 
+class DifferenceLoss(LossFunction):
+    def compute(self, a: np.ndarray, b: np.ndarray) -> np.ndarray:
+        return a - b
+
+    def derivative(self, a: np.ndarray, b: np.ndarray) -> np.ndarray:
+        return np.ones_like(a - b)
+
+
 class MSELoss(LossFunction):
     def compute(self, y_true: np.ndarray, y_pred: np.ndarray) -> float:
         return np.mean((y_true - y_pred) ** 2)

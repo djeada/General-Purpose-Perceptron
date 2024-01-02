@@ -19,7 +19,6 @@ def initialize_perceptron(input_size: int, learning_rate: float) -> Perceptron:
         input_size=input_size,
         output_size=1,
         activation_func=LinearActivation(),
-        error_func=lambda a, b: a - b,
         learning_rate=learning_rate,
         l1_ratio=0,
         l2_ratio=0,
@@ -33,7 +32,7 @@ def train_perceptron(
     for i in range(n_iterations):
         perceptron.train(X, y, epochs=1, batch_size=1)
         output = perceptron.forward(X)
-        error = perceptron.error_func(y, output)
+        error = perceptron.error_func.compute(y, output)
         record_training_progress(
             i, X, y, perceptron.weights, output, error, training_data
         )

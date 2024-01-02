@@ -29,7 +29,6 @@ def train_perceptron(X_train: np.ndarray, y_train: np.ndarray) -> Perceptron:
         input_size=2,
         output_size=1,
         activation_func=StepActivation(),
-        error_func=lambda a, b: a - b,
         learning_rate=0.01,
         l1_ratio=0,
         l2_ratio=0,

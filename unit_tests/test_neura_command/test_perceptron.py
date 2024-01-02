@@ -4,19 +4,18 @@ from sklearn.datasets import make_regression
 from sklearn.model_selection import train_test_split
 
 from neura_command.network_utils.activation_functions import SigmoidActivation
+from neura_command.network_utils.loss_functions import MSELoss
 from neura_command.neuron.perceptron import Perceptron
 
 
 @pytest.fixture
 def perceptron_instance():
-    def mean_squared_error(y_true, y_pred):
-        return np.mean(np.square(y_true - y_pred))
 
     return Perceptron(
         input_size=2,
         output_size=1,
         activation_func=SigmoidActivation(),
-        error_func=mean_squared_error,
+        loss_func=MSELoss(),
         learning_rate=0.01,
         l1_ratio=0.01,
         l2_ratio=0.01,
@@ -75,14 +74,14 @@ def test_training_process(perceptron_instance, regression_dataset):
         X, y, test_size=0.2, random_state=42
     )
 
-    initial_error = perceptron_instance.error_func(
+    initial_error = perceptron_instance.error_func.compute(
         y_train, perceptron_instance.forward(X_train)
     )
 
     # Train the perceptron on the training data
     perceptron_instance.train(X_train, y_train, epochs=1, batch_size=1)
 
-    final_error = perceptron_instance.error_func(
+    final_error = perceptron_instance.error_func.compute(
         y_test, perceptron_instance.forward(X_test)
     )
 
@@ -132,7 +131,7 @@ def test_error_reduction_multiple_epochs(perceptron_instance, regression_dataset
         X, y, test_size=0.2, random_state=42
     )
 
-    initial_error = perceptron_instance.error_func(
+    initial_error = perceptron_instance.error_func.compute(
         y_test, perceptron_instance.forward(X_test)
     )
 
@@ -141,7 +140,7 @@ def test_error_reduction_multiple_epochs(perceptron_instance, regression_dataset
     # Train for multiple epochs
     for epoch in range(10):  # 10 epochs
         perceptron_instance.train(X_train, y_train, epochs=1, batch_size=1)
-        error = perceptron_instance.error_func(
+        error = perceptron_instance.error_func.compute(
             y_test, perceptron_instance.forward(X_test)
         )
         errors.append(error)

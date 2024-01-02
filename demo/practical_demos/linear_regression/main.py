@@ -7,10 +7,6 @@ from neura_command.network_utils.activation_functions import LinearActivation
 from neura_command.neuron.perceptron import Perceptron
 
 
-def mean_squared_error_func(y_true: np.ndarray, y_pred: np.ndarray) -> float:
-    return np.mean((y_true - y_pred) ** 2)
-
-
 def prepare_data(n: int = 100) -> tuple[np.ndarray, np.ndarray]:
     np.random.seed(42)
     X = np.random.rand(n, 1)
@@ -23,7 +19,6 @@ def train_perceptron(X_train_scaled: np.ndarray, y_train: np.ndarray) -> Percept
         input_size=1,
         output_size=1,
         activation_func=LinearActivation(),
-        error_func=lambda a, b: a - b,
         learning_rate=0.01,
         l1_ratio=0.00001,
         l2_ratio=0.00001,

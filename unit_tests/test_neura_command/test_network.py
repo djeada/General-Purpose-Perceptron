@@ -32,7 +32,7 @@ def create_mock_perceptron():
         output_size=2,
         activation_func=mock_activation_func,
         activation_deriv=mock_activation_deriv,
-        error_func=mock_error_func,
+        loss_func=mock_error_func,
         learning_rate=0.01,
         l1_ratio=0.01,
         l2_ratio=0.01,

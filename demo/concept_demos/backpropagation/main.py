@@ -19,7 +19,7 @@ class NeuralNetwork:
                 output_size=layer_sizes[i + 1],
                 learning_rate=learning_rate,
                 activation_func=BasicSigmoidActivation(),
-                error_func=lambda a, b: a - b,
+                loss_func=lambda a, b: a - b,
                 l1_ratio=0,
                 l2_ratio=0,
             )

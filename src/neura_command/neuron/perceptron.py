@@ -1,8 +1,9 @@
-from typing import Callable, Tuple
+from typing import Tuple
 
 import numpy as np
 
 from neura_command.network_utils.activation_functions import ActivationFunction
+from neura_command.network_utils.loss_functions import DifferenceLoss, LossFunction
 from neura_command.neuron.neuron_interface import NeuronInterface
 
 
@@ -12,8 +13,8 @@ class Perceptron(NeuronInterface):
         input_size: int,
         output_size: int,
         activation_func: ActivationFunction,
+        loss_func: LossFunction = DifferenceLoss(),
         learning_rate: float = 0.1,
-        error_func: Callable[[np.ndarray, np.ndarray], np.ndarray] = lambda a, b: a - b,
         l1_ratio: float = 0.0,
         l2_ratio: float = 0.0,
     ) -> None:
@@ -22,7 +23,7 @@ class Perceptron(NeuronInterface):
             0, 1 / np.sqrt(input_size), (input_size + 1, output_size)
         )
         self.activation_func = activation_func
-        self.error_func = error_func
+        self.error_func = loss_func
         self.learning_rate = learning_rate
         self.l1_ratio = l1_ratio
         self.l2_ratio = l2_ratio
@@ -68,7 +69,7 @@ class Perceptron(NeuronInterface):
                 output = self.forward(X_batch)
 
                 # Calculating error
-                error = self.error_func(y_batch, output)
+                error = self.error_func.compute(y_batch, output)
 
                 # Backward pass and weight update
                 self.backward(error)

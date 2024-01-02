@@ -29,7 +29,7 @@ def initialize_perceptron(
         input_size=input_size,
         output_size=output_size,
         activation_func=LinearActivation(),
-        error_func=lambda y_true, y_pred: y_true - y_pred,
+        loss_func=lambda y_true, y_pred: y_true - y_pred,
         learning_rate=learning_rate,
         l1_ratio=0,
         l2_ratio=0,
