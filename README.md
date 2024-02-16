@@ -75,14 +75,6 @@ performance = network.evaluate(data)
 print(performance)  # Example loss: 0.05
 ```
 
-## Advanced Features
-
-- **Non-Linearly Separable Data Handling**: NeuraCommand provides specialized tools and techniques for handling complex, non-linearly separable datasets. This feature is particularly useful for datasets like `make_moons` from `sklearn`, where traditional linear models fall short. The tool includes functionalities for preprocessing such datasets, applying various transformation techniques, and utilizing advanced neural network architectures that are adept at capturing non-linear relationships.
-
-- **Layer Process Inspection**: This feature offers a deep dive into the internal workings of each layer within the neural network during both the training and prediction phases. Users can monitor the activation outputs, weight adjustments, and error propagation in real-time. This transparency is crucial for understanding and optimizing the network's learning process, troubleshooting issues, and improving overall model performance.
-
-- **Model Export and Import**: Enhanced capabilities for exporting and importing neural network models are a cornerstone of NeuraCommand. Users can export trained models, including their architecture, weights, and training state, into a portable format. This makes it easy to share models, deploy them in different environments, or continue training at a later stage. The import functionality allows users to seamlessly load and integrate pre-trained models, facilitating model reuse and collaborative development.
-
 ## References
 
 1. Nielsen, M. (2015). *Neural Networks and Deep Learning*. Determination Press.
