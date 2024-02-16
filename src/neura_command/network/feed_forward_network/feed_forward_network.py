@@ -1,14 +1,16 @@
 import numpy as np
+from typing import List, Optional, Callable
 
+from neura_command.layer.layer import Layer
 from neura_command.network_utils.loss_functions import LossFunction
 
 
 class FeedForwardNetwork:
-    def __init__(self, loss_func: LossFunction):
-        self.layers = []
-        self.loss_func = loss_func
+    def __init__(self, loss_func: LossFunction) -> None:
+        self.layers: List[Layer] = []
+        self.loss_func: LossFunction = loss_func
 
-    def add_layer(self, layer, index=None):
+    def add_layer(self, layer: Layer, index: Optional[int] = None) -> None:
         if index is not None:
             self._validate_index(index, allow_equal=True)
             self._validate_layer_sizes(layer, index)
@@ -18,11 +20,11 @@ class FeedForwardNetwork:
                 raise ValueError("Layer sizes are not compatible.")
             self.layers.append(layer)
 
-    def remove_layer(self, index):
+    def remove_layer(self, index: int) -> None:
         self._validate_index(index)
         del self.layers[index]
 
-    def reorder_layers(self, new_order):
+    def reorder_layers(self, new_order: List[int]) -> None:
         if len(new_order) != len(self.layers):
             raise ValueError("New order must include all layers.")
         if set(new_order) != set(range(len(self.layers))):
@@ -31,22 +33,17 @@ class FeedForwardNetwork:
         self.layers = [self.layers[i] for i in new_order]
         self._validate_consecutive_layer_sizes()
 
-    def _validate_index(self, index, allow_equal=False):
-        if not (0 <= index < len(self.layers)) and not (
-            allow_equal and index == len(self.layers)
-        ):
+    def _validate_index(self, index: int, allow_equal: bool = False) -> None:
+        if not (0 <= index < len(self.layers)) and not (allow_equal and index == len(self.layers)):
             raise IndexError("Index out of range.")
 
-    def _validate_layer_sizes(self, layer, index):
+    def _validate_layer_sizes(self, layer: Layer, index: int) -> None:
         if index > 0 and self.layers[index - 1].output_size != layer.input_size:
             raise ValueError("Layer sizes are not compatible before the index.")
-        if (
-            index < len(self.layers)
-            and self.layers[index].input_size != layer.output_size
-        ):
+        if index < len(self.layers) and self.layers[index].input_size != layer.output_size:
             raise ValueError("Layer sizes are not compatible after the index.")
 
-    def _validate_consecutive_layer_sizes(self):
+    def _validate_consecutive_layer_sizes(self) -> None:
         for i in range(len(self.layers) - 1):
             if self.layers[i].output_size != self.layers[i + 1].input_size:
                 raise ValueError("Reordered layers are not compatible.")
@@ -77,27 +74,30 @@ class FeedForwardNetwork:
         y: np.ndarray,
         epochs: int,
         batch_size: int,
-        learning_rate_schedule: callable = None,
-        X_val: np.ndarray = None,
-        y_val: np.ndarray = None,
+        learning_rate_schedule: Optional[Callable[[int], float]] = None,
+        X_val: Optional[np.ndarray] = None,
+        y_val: Optional[np.ndarray] = None,
     ) -> None:
         for epoch in range(epochs):
             if learning_rate_schedule:
                 for layer in self.layers:
                     layer.learning_rate = learning_rate_schedule(epoch)
 
-            epoch_loss = 0
-            for i in range(0, len(X), batch_size):
-                X_batch = X[i : i + batch_size]
-                y_batch = y[i : i + batch_size]
-                output = self.forward(X_batch)
-                self.backward(y_batch, output)
-                self.update_weights()
-                epoch_loss += np.mean(self.loss_func.compute(y_batch, output))
-
-            epoch_loss /= len(X) / batch_size
+            epoch_loss = self._train_batch(X, y, batch_size)
             print(f"Epoch {epoch + 1}/{epochs}, Training Loss: {epoch_loss}")
 
             if X_val is not None and y_val is not None:
                 val_loss = self.calculate_loss(X_val, y_val)
                 print(f"Validation Loss: {val_loss}")
+
+    def _train_batch(self, X: np.ndarray, y: np.ndarray, batch_size: int) -> float:
+        epoch_loss = 0
+        for i in range(0, len(X), batch_size):
+            X_batch = X[i:i + batch_size]
+            y_batch = y[i:i + batch_size]
+            output = self.forward(X_batch)
+            self.backward(y_batch, output)
+            self.update_weights()
+            epoch_loss += np.mean(self.loss_func.compute(y_batch, output))
+
+        return epoch_loss / (len(X) / batch_size)
