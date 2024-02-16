@@ -1,6 +1,6 @@
 # NeuraCommand
 
-NeuraCommand is an advanced Command Line Interface (CLI) tool specifically tailored for the creation, training, and deployment of neural networks. It offers a streamlined experience for managing complex neural network structures, including multi-layer perceptrons. This tool enables users to efficiently perform tasks such as data loading, model training, prediction, and saving trained models for future usage or additional training.
+NeuraCommand is a very simple CLI tool designed for creating, training, and deploying neural networks. It provides a seamless interface for handling complex neural network architectures, including perceptrons with multiple layers. With NeuraCommand, users can efficiently load data, train models, and use them for predictions.
 
 ## Features
 
