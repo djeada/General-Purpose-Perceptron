@@ -147,8 +147,6 @@ We warmly welcome contributions to NeuraCommand! Whether you're fixing bugs, add
 - Keep your commits clean and understandable.
 - Stay respectful and open to feedback during the review process.
 
-For more detailed information, see the [CONTRIBUTING](CONTRIBUTING.md) file in the repository.
-
 We're excited to see what you bring to NeuraCommand!
 
 ## License
