@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from neura_command.network_utils.activation_functions import BasicSigmoidActivation
-from neura_command.neuron.perceptron import Perceptron
+from neura_command.neuron.perceptron.perceptron import Perceptron
 
 
 def mean_squared_error(y_true: np.ndarray, y_pred: np.ndarray) -> float:

@@ -4,7 +4,7 @@ from sklearn.datasets import make_regression
 from sklearn.model_selection import train_test_split
 
 from neura_command.network_utils.activation_functions import LinearActivation
-from neura_command.neuron.perceptron import Perceptron
+from neura_command.neuron.perceptron.perceptron import Perceptron
 
 
 # Generate a synthetic regression dataset.

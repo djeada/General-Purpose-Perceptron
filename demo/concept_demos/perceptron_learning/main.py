@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 
 from neura_command.network_utils.activation_functions import LinearActivation
-from neura_command.neuron.perceptron import Perceptron
+from neura_command.neuron.perceptron.perceptron import Perceptron
 
 
 def create_dataset() -> Tuple[np.ndarray, np.ndarray]:

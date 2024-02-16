@@ -5,10 +5,12 @@ from matplotlib import pyplot as plt
 from sklearn.datasets import fetch_openml
 from sklearn.model_selection import train_test_split
 
-from neura_command.network.feed_forward_network import FeedForwardNetwork
+from neura_command.network.feed_forward_network.feed_forward_network import (
+    FeedForwardNetwork,
+)
 from neura_command.network_utils.activation_functions import ReLUActivation
 from neura_command.network_utils.loss_functions import MSELoss
-from neura_command.neuron.perceptron import Perceptron
+from neura_command.neuron.perceptron.perceptron import Perceptron
 
 
 def initialize_network(
@@ -51,7 +53,9 @@ def load_and_prepare_data() -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndar
     """
     mnist = fetch_openml("mnist_784")
     X = mnist.data.astype("float32") / 255
+    X = X.to_numpy()  # Convert to NumPy array if it's a DataFrame
     y = mnist.target.astype("int")
+    y = y.to_numpy()  # Convert to NumPy array if it's a DataFrame or Series
     return train_test_split(X, y, test_size=0.2, random_state=42)
 
 
@@ -80,7 +84,7 @@ def display_sample_predictions(
 
     plt.figure(figsize=(15, 6))
     for i, index in enumerate(sample_indices):
-        image = X_test[index].reshape(28, 28)
+        image = X_test[index].reshape(28, 28)  # Ensure X_test is a NumPy array
         true_label = np.argmax(test_labels[index])
         predicted_label = np.argmax(network.forward(X_test[index].reshape(1, -1)))
         plt.subplot(2, num_samples // 2, i + 1)

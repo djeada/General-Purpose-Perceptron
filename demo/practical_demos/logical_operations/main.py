@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
 from neura_command.network_utils.activation_functions import StepActivation
-from neura_command.neuron.perceptron import Perceptron
+from neura_command.neuron.perceptron.perceptron import Perceptron
 
 
 def prepare_data(

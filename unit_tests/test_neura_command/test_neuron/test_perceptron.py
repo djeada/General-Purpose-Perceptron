@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 
 from neura_command.network_utils.activation_functions import SigmoidActivation
 from neura_command.network_utils.loss_functions import MSELoss
-from neura_command.neuron.perceptron import Perceptron
+from neura_command.neuron.perceptron.perceptron import Perceptron
 
 
 @pytest.fixture

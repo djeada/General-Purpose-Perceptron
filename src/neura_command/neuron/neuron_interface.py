@@ -3,23 +3,8 @@ from typing import Tuple
 
 import numpy as np
 
-from neura_command.network_utils.activation_functions import ActivationFunction
-from neura_command.network_utils.loss_functions import DifferenceLoss, LossFunction
-
 
 class NeuronInterface(ABC):
-    def __init__(
-        self,
-        input_size: int,
-        output_size: int,
-        activation_func: ActivationFunction,
-        loss_func: LossFunction = DifferenceLoss(),
-        learning_rate: float = 0.1,
-        l1_ratio: float = 0.0,
-        l2_ratio: float = 0.0,
-    ) -> None:
-        pass
-
     @abstractmethod
     def initialize_weights(self):
         pass

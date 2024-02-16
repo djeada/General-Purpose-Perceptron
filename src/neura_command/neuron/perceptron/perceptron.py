@@ -18,10 +18,7 @@ class Perceptron(NeuronInterface):
         l1_ratio: float = 0.0,
         l2_ratio: float = 0.0,
     ) -> None:
-        # Initialize weights as a matrix
-        self.weights = np.random.normal(
-            0, 1 / np.sqrt(input_size), (input_size + 1, output_size)
-        )
+        self.initialize_weights(input_size, output_size)
         self.activation_func = activation_func
         self.error_func = loss_func
         self.learning_rate = learning_rate
@@ -30,6 +27,11 @@ class Perceptron(NeuronInterface):
         self.last_input = np.array([])
         self.last_output = np.array([])
         self.last_gradient = np.array([])
+
+    def initialize_weights(self, input_size: int, output_size: int) -> None:
+        self.weights = np.random.normal(
+            0, 1 / np.sqrt(input_size), (input_size + 1, output_size)
+        )
 
     @property
     def input_size(self) -> int:
