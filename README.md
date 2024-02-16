@@ -80,11 +80,35 @@ print(performance)  # Example loss: 0.05
 
 ## References
 
-- **TensorFlow Playground**: An interactive web platform where users can experiment with neural networks. It provides a hands-on experience for understanding how neural networks work, including the impact of various parameters and architectures. Great for visual learners and those new to neural networks. [TensorFlow Playground](https://playground.tensorflow.org/).
-- **DeepLizard**: Offers a series of comprehensive tutorials and visual explanations on neural networks, deep learning, and reinforcement learning, catering to a range of experience levels. [DeepLizard](https://deeplizard.com/).
-- **Machine Learning by Andrew Ng on Coursera**: This course provides a broad introduction to machine learning, data mining, and statistical pattern recognition. It includes topics on neural networks and is suitable for beginners. [Coursera - Machine Learning](https://www.coursera.org/learn/machine-learning).
-- **Deep Learning Specialization by Andrew Ng on Coursera**: A series of courses that help you master deep learning, understand how to build neural networks, and learn about CNNs, RNNs, and more. [Coursera - Deep Learning Specialization](https://www.coursera.org/specializations/deep-learning).
-- **Neural Networks and Deep Learning by Michael Nielsen**: An online book providing a deep dive into the fundamentals of neural networks, including their theoretical underpinnings and practical applications. [Neural Networks and Deep Learning](http://neuralnetworksanddeeplearning.com/).
+1. Nielsen, M. (2015). *Neural Networks and Deep Learning*. Determination Press.
+   - [Online Book](http://neuralnetworksanddeeplearning.com/)
+
+2. Goodfellow, I., Bengio, Y., & Courville, A. (2016). *Deep Learning*. MIT Press.
+   - [MIT Press](https://www.deeplearningbook.org/)
+
+3. Bishop, C. M. (2006). *Pattern Recognition and Machine Learning*. Springer.
+   - [Springer](http://www.springer.com/gp/book/9780387310732)
+
+4. Shalev-Shwartz, S., & Ben-David, S. (2014). *Understanding Machine Learning: From Theory to Algorithms*. Cambridge University Press.
+   - [Cambridge Core](https://www.cambridge.org/core/books/understanding-machine-learning/3059709FEBB4176FC37311D0AD8B2B8E)
+
+5. Hertz, J., Krogh, A., & Palmer, R. G. (1991). *Introduction to the Theory of Neural Computation*. Addison-Wesley.
+   - [Amazon](https://www.amazon.com/Introduction-Theory-Neural-Computation-Computational/dp/0201515601)
+
+6. Fausett, L. (1994). *Fundamentals of Neural Networks: Architectures, Algorithms, and Applications*. Prentice-Hall.
+   - [Pearson](https://www.pearson.com/us/higher-education/program/Fausett-Fundamentals-of-Neural-Networks-Architectures-Algorithms-and-Applications/PGM80736.html)
+
+7. Bishop, C. M. (1995). *Neural Networks for Pattern Recognition*. Oxford University Press.
+   - [Amazon](https://www.amazon.com/Neural-Networks-Pattern-Recognition-Christopher/dp/0198538642)
+
+8. Géron, A. (2019). *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*. O'Reilly Media.
+   - [O'Reilly](https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/)
+
+9. Vasilev, I., & Slater, D. (2019). *Python Deep Learning*. Packt Publishing.
+   - [Packt](https://www.packtpub.com/product/python-deep-learning-second-edition/9781789348460)
+
+10. Iyengar, R. S. (2017). *Convolutional Neural Networks in Visual Computing: A Concise Guide*. CRC Press.
+    - [Amazon](https://www.amazon.com/Convolutional-Networks-Visual-Computing-Concise/dp/1498749936)
 
 ## TODO
 
