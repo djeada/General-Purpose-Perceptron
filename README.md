@@ -4,14 +4,19 @@ NeuraCommand is an advanced Command Line Interface (CLI) tool specifically tailo
 
 ## Features
 
-- **Intuitive CLI**: User-friendly command-line interface simplifying all neural network operations.
-- **Customizable Network Architectures**: Easily configure neural networks with diverse layers and structures.
-- **Matrix Input Support**: Compatible with various matrix data formats for network training.
-- **Persistent Model Management**: Capability to save and reload models for ongoing training or future use.
-- **Immediate Predictions**: Deploy trained networks for real-time prediction tasks.
-- **Layer Output Visualization**: Display outputs from all layers to understand network processing.
-- **Model Selection Flexibility**: Choose from multiple trained models for specific tasks.
-- **Prediction-Only Mode**: Option to use the tool solely for making predictions.
+- **Flexible Network Creation Library**: A library built on top of numpy, providing the flexibility to create various network configurations easily.
+
+- **Intuitive Command-Line Interface (CLI)**: A user-friendly CLI that simplifies neural network operations, enhancing accessibility for usage in different programming languages or embedded systems.
+
+- **Customizable Network Architectures**: Tailor your neural networks with a range of layers and structures. Create unique networks either through an interactive CLI experience or by populating a JSON template.
+
+- **Matrix Input Support**: Offers compatibility with multiple matrix data formats, facilitating versatile network training. Once your network is set up, train it repeatedly using a variety of inputs.
+
+- **Persistent Model Management**: Efficiently save and reload your neural network models for continuous training or future utilization. Once trained, models can be stored as blobs on disk and reloaded as needed.
+
+- **Immediate Predictions**: Implement your trained networks for real-time prediction tasks. Input data can be manually entered or read from a disk, with the option to display predictions on-screen or save them to a file.
+
+- **Layer Output Visualization**: Gain insights into your network's processing by displaying outputs from all layers. Choose between numerical printouts, CSV files, or other formats to keep track of your network's functionality—nothing remains hidden.
 
 ## Installation
 
