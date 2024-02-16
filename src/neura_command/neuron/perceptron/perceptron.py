@@ -76,3 +76,14 @@ class Perceptron(NeuronInterface):
                 # Backward pass and weight update
                 self.backward(error)
                 self.update_weights()
+
+    def __repr__(self) -> str:
+        return (
+            f"{self.__class__.__name__}(input_size={self.input_size}, "
+            f"output_size={self.output_size}, "
+            f"activation_func={self.activation_func.__class__.__name__}, "
+            f"loss_func={self.error_func.__class__.__name__}, "
+            f"learning_rate={self.learning_rate}, "
+            f"l1_ratio={self.l1_ratio}, "
+            f"l2_ratio={self.l2_ratio})"
+        )
