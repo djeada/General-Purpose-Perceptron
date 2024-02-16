@@ -98,7 +98,6 @@ where $\alpha$ is the learning rate, $a_i^{(l)}$ is the activation of the $i^{th
 
 This process of forward propagation, loss computation, backpropagation, and parameter update is repeated for each batch of data in our training set until the entire set has been processed. This constitutes one epoch of training. We typically repeat this process for many epochs until the loss on our validation set stops improving.
 
-
 ## Example
 
 Let's create a simple example of a multilayer perceptron (MLP) on paper. Our MLP will have an input layer with 2 neurons, a hidden layer with 2 neurons, and an output layer with 1 neuron. We will use the sigmoid activation function for all neurons. Our goal is to train the MLP to perform the XOR operation.
@@ -206,6 +205,12 @@ So, the new weights and biases after the first training step are:
 
 The XOR gate is a fundamental building block in digital circuits. It operates with two inputs and one output, and the output is 'true' if and only if the number of true inputs is odd.
 
+![gradient_evolution](https://github.com/djeada/NeuraCommand/assets/37275728/bfb8a529-ee46-4f9e-8f44-f90a6a5b7485)
+
+![trainning_over_epochs](https://github.com/djeada/NeuraCommand/assets/37275728/24171511-fafe-4d9b-a36b-c02d05eed17a)
+
+![decision_boundary](https://github.com/djeada/NeuraCommand/assets/37275728/b2a5334a-b5cb-4238-9cd4-0e1e49929d35)
+
 Truth table for XOR:
 
 | Input1 (x) | Input2 (y) | Output (z) |
@@ -296,5 +301,3 @@ $a_{11(new)} = a_{11(old)} - \alpha*\frac {\delta f}{\delta a_{11}} = 0.6 - 0.1*
 And so on, for the rest of the parameters.
 
 The parameters should then be updated and the process is repeated with the new parameters until the loss function is minimized to a satisfactory level.
-
-
