@@ -2,6 +2,8 @@
 
 Artificial neurons, also known as nodes, units, or perceptrons, are the fundamental building blocks of artificial neural networks. They are designed to mimic the behavior of biological neurons in the human brain.
 
+![perceptron_learning](https://github.com/djeada/NeuraCommand/assets/37275728/d619ccda-5ca8-4324-abe8-804f242188a9)
+
 ### What is an Artificial Neuron?
 
 An artificial neuron takes a set of input data, performs calculations on that data, and produces an output. Each input is associated with a weight, which represents its importance or influence on the output. Inputs are combined using a weighted sum, which includes an additional parameter called the bias or threshold.
