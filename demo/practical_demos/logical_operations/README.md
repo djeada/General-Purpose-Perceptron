@@ -2,6 +2,10 @@
 
 In this example, we tackle a fundamental problem in machine learning: the classification of logical operations using perceptrons. Specifically, we aim to implement perceptrons to solve the logical AND and OR operations.
 
+![and](https://github.com/djeada/NeuraCommand/assets/37275728/3f977c47-d359-4e78-a42f-7f12c20d8d70)
+
+![or](https://github.com/djeada/NeuraCommand/assets/37275728/47ed2b0b-6930-4690-a838-e9e3e783e02f)
+
 ## Problem Overview
 
 Logical gates, such as AND and OR, are essential components of digital circuits and represent binary operations. The AND gate outputs 1 if both of its inputs are 1; otherwise, it outputs 0. The OR gate outputs 1 if at least one of its inputs is 1; otherwise, it outputs 0. These gates are simple but fundamental in computing.
