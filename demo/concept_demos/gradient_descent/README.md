@@ -2,6 +2,8 @@
 
 Gradient Descent is a first-order iterative optimization algorithm used to find the minimum of a function. It's commonly used in machine learning and data science to optimize loss functions, which measure the error or discrepancy between predicted and actual data.
 
+![gradient_descent](https://github.com/djeada/NeuraCommand/assets/37275728/fba14b65-7e64-4a11-ba14-87e65a7a0530)
+
 ### What is Gradient Descent?
 
 Imagine you're in a mountainous region and your goal is to reach the lowest point in the valley, but it's so foggy you can't see where to go. What you can do is feel the ground around you and take a step in the steepest direction downhill. That's essentially what gradient descent does, but in a mathematical function.
