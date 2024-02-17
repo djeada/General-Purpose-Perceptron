@@ -1,4 +1,4 @@
-from app.menu.initial_menu import InitialMenu
+from app.menu.intro_menu.initial_menu import InitialMenu
 
 
 def main():

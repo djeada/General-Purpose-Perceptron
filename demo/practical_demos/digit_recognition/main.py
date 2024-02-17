@@ -5,6 +5,7 @@ from matplotlib import pyplot as plt
 from sklearn.datasets import fetch_openml
 from sklearn.model_selection import train_test_split
 
+from neura_command.layer.layer import Layer
 from neura_command.network.feed_forward_network.feed_forward_network import (
     FeedForwardNetwork,
 )
@@ -20,23 +21,35 @@ def initialize_network(
     Initializes the neural network with given parameters.
     """
     layers = [
-        Perceptron(
-            input_size,
-            hidden_layer_size,
-            activation_func=ReLUActivation(),
-            learning_rate=learning_rate,
+        Layer(
+            [
+                Perceptron(
+                    input_size,
+                    hidden_layer_size,
+                    activation_func=ReLUActivation(),
+                    learning_rate=learning_rate,
+                )
+            ]
         ),
-        Perceptron(
-            hidden_layer_size,
-            hidden_layer_size,
-            activation_func=ReLUActivation(),
-            learning_rate=learning_rate,
+        Layer(
+            [
+                Perceptron(
+                    hidden_layer_size,
+                    hidden_layer_size,
+                    activation_func=ReLUActivation(),
+                    learning_rate=learning_rate,
+                )
+            ]
         ),
-        Perceptron(
-            hidden_layer_size,
-            output_size,
-            activation_func=ReLUActivation(),
-            learning_rate=learning_rate,
+        Layer(
+            [
+                Perceptron(
+                    hidden_layer_size,
+                    output_size,
+                    activation_func=ReLUActivation(),
+                    learning_rate=learning_rate,
+                )
+            ]
         ),
     ]
 
@@ -104,7 +117,7 @@ def main() -> None:
     train_labels = np.eye(10)[y_train]
     test_labels = np.eye(10)[y_test]
 
-    network.train(X_train, train_labels, epochs=10, batch_size=10)
+    network.train(X_train, train_labels, epochs=2, batch_size=10)
     test_loss = network.calculate_loss(X_test, test_labels)
     print(f"Test Loss: {test_loss}")
     accuracy = calculate_accuracy(network, X_test, test_labels)

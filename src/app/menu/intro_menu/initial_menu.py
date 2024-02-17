@@ -1,13 +1,13 @@
 import sys
 
-from app.menu.create_network_menu import CreateNetworkMenu
-from app.menu.load_network_menu import LoadNetworkMenu
+from app.menu.create_network_menu.create_network_menu import CreateNetworkMenu
+from app.menu.load_network_menu.load_network_menu import LoadNetworkMenu
 from app.menu.menu_interface import Menu
 
 
 class InitialMenu(Menu):
     def display(self):
-        print("\nNeural Network CLI Application")
+        print("\nNeura Command CLI Application")
         print("1. Load Network from Disk")
         print("2. Create Network from Scratch")
         print("3. Exit")
