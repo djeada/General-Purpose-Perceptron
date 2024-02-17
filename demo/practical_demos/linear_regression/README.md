@@ -6,6 +6,8 @@ $$y = 2X + 1$$
 
 However, we also introduce some random noise to simulate real-world data. Our goal is to train a perceptron to approximate this linear relationship and make predictions based on the input `X`. We will visualize the data and the perceptron's predictions using Matplotlib.
 
+![linear_regression](https://github.com/djeada/NeuraCommand/assets/37275728/e6ac0552-fb7c-4ccb-9537-38293ebdfb3c)
+
 ## How Perceptron Solves the Problem
 
 A perceptron is a basic building block of a neural network, and in this context, we use it as a simple linear model. Here's how the perceptron solves the linear regression problem:
