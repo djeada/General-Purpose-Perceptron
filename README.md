@@ -26,28 +26,48 @@ Install NeuraCommand using pip:
 pip install gp_perceptron_framework
 ```
 
-## Usage
+## Usage of NeuraCommand CLI
 
 Basic usage of NeuraCommand:
 
-```bash
-# Create a new neural network
-neuracommand create-network --layers 3 --neurons 64
-
-# Load data for training
-neuracommand load-data --file path/to/data.csv
-
-# Train the network
-neuracommand train --epochs 100
-
-# Save the trained model
-neuracommand save-model --output model.ncmd
-
-# Make predictions
-neuracommand predict --input sample_input.csv
+```
+neuracommand [-h] {create,train,predict} ...
 ```
 
-## Quickstart
+### Create
+Create a new neural network from a JSON configuration file.
+
+```
+neuracommand create <config> [--output <output_path>]
+```
+
+- <config>: Path to the neural network configuration file (JSON format).
+- --output <output_path>: Path to save the created network (default: network.pkl).
+
+### Train
+Train a neural network from a specified file.
+
+```
+neuracommand train <network> --input_x <input_x_path> --input_y <input_y_path> [--epochs <num_epochs>] [--overwrite]
+```
+
+- <network>: Path to the neural network file (e.g., .pkl).
+- --input_x <input_x_path>: Path to the input features file (CSV format).
+- --input_y <input_y_path>: Path to the target values file (CSV format).
+- --epochs <num_epochs>: Number of training epochs (default: 100).
+- --overwrite: Overwrite the existing network file after training.
+
+### Predict
+Make predictions using a trained neural network.
+
+```
+neuracommand predict <network> --input <input_path>
+```
+
+- <network>: Path to the neural network file (e.g., .pkl).
+- --input <input_path>: Path to the input file for making predictions (CSV format).
+
+## Quickstart for NeuraCommand package
 
 Example code for using NeuraCommand in Python:
 
