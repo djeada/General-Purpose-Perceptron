@@ -1,4 +1,6 @@
-from app.menu.create_network_menu.add_perceptron_menu import AddPerceptronMenu
+from app.menu.create_network_menu.perceptron_level_menus.add_perceptron_menu import (
+    AddPerceptronMenu,
+)
 from app.menu.menu_interface import Menu
 from app.network_builder.network_builder import NetworkBuilder
 

@@ -1,5 +1,3 @@
-import os
-
 from app.menu.menu_interface import Menu
 from app.network_builder.network_builder import NetworkBuilder
 

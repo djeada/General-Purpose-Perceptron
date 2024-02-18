@@ -1,6 +1,10 @@
-from app.menu.create_network_menu.add_layer_menu import AddLayerMenu
-from app.menu.create_network_menu.modify_layer_menu import ModifyLayerMenu
-from app.menu.create_network_menu.remove_layer_menu import RemoveLayerMenu
+from app.menu.create_network_menu.layer_level_menus.add_layer_menu import AddLayerMenu
+from app.menu.create_network_menu.layer_level_menus.select_layer_menu import (
+    SelectLayerMenu,
+)
+from app.menu.create_network_menu.layer_level_menus.remove_layer_menu import (
+    RemoveLayerMenu,
+)
 from app.menu.create_network_menu.save_network_menu import SaveNetworkMenu
 from app.menu.menu_interface import Menu
 from app.network_builder.network_builder import NetworkBuilder
@@ -54,7 +58,7 @@ class CreateNetworkMenu(Menu):
         remove_layer_menu.display()
 
     def modify_layer(self):
-        modify_layer_menu = ModifyLayerMenu(
+        modify_layer_menu = SelectLayerMenu(
             parent_menu=self, network_builder=self.builder
         )
         modify_layer_menu.display()

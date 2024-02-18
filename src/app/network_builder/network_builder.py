@@ -4,6 +4,7 @@ from neura_command.layer.layer import Layer
 from neura_command.network.feed_forward_network.feed_forward_network import (
     FeedForwardNetwork,
 )
+from neura_command.neuron.perceptron.perceptron import Perceptron
 from neura_command.network_utils.activation_functions import (
     LinearActivation,
     TanhActivation,
@@ -18,7 +19,6 @@ from neura_command.network_utils.loss_functions import (
     CrossEntropyLoss,
     DifferenceLoss,
 )
-from neura_command.neuron.perceptron.perceptron import Perceptron
 
 
 class NetworkBuilder:
@@ -90,12 +90,20 @@ class NetworkBuilder:
             print(f"Unknown loss function: {name}. Using MSELoss as default.")
             return MSELoss()
 
+    ## LAYER LEVEL OPERATIONS ##
+
     def add_layer(self, layer_config):
         self.config["layers"].append(layer_config)
 
     def get_layer(self, layer_index):
         if layer_index < len(self.config["layers"]):
             return self.config["layers"][layer_index]
+        else:
+            raise IndexError("Layer index out of range")
+
+    def set_layer(self, layer_index, new_layer_config):
+        if layer_index < len(self.config["layers"]):
+            self.config["layers"][layer_index] = new_layer_config
         else:
             raise IndexError("Layer index out of range")
 
@@ -108,6 +116,28 @@ class NetworkBuilder:
     def insert_layer(self, layer_index, layer_config):
         if layer_index <= len(self.config["layers"]):
             self.config["layers"].insert(layer_index, layer_config)
+        else:
+            raise IndexError("Layer index out of range")
+
+    ## PERCEPTRON LEVEL OPERATIONS ##
+
+    def get_perceptron(self, layer_index, perceptron_index):
+        if layer_index < len(self.config["layers"]):
+            layer = self.config["layers"][layer_index]
+            if perceptron_index < len(layer["perceptrons"]):
+                return layer["perceptrons"][perceptron_index]
+            else:
+                raise IndexError("Perceptron index out of range")
+        else:
+            raise IndexError("Layer index out of range")
+
+    def set_perceptron(self, layer_index, perceptron_index, new_perceptron_config):
+        if layer_index < len(self.config["layers"]):
+            layer = self.config["layers"][layer_index]
+            if perceptron_index < len(layer["perceptrons"]):
+                layer["perceptrons"][perceptron_index] = new_perceptron_config
+            else:
+                raise IndexError("Perceptron index out of range")
         else:
             raise IndexError("Layer index out of range")
 
