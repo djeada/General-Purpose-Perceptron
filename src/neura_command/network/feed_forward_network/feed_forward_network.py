@@ -14,8 +14,8 @@ logger = logging.getLogger(__name__)
 
 
 class FeedForwardNetwork:
-    def __init__(self, loss_func: LossFunction) -> None:
-        self.layers: List[Layer] = []
+    def __init__(self, loss_func: LossFunction, layers=None) -> None:
+        self.layers: List[Layer] = layers if layers is not None else list()
         self.loss_func: LossFunction = loss_func
         logger.info(
             "FeedForwardNetwork initialized with loss function: %s",

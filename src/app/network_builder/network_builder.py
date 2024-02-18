@@ -1,4 +1,5 @@
 import json
+from typing import List, Union, Dict
 
 from neura_command.layer.layer import Layer
 from neura_command.network.feed_forward_network.feed_forward_network import (
@@ -22,7 +23,7 @@ from neura_command.network_utils.loss_functions import (
 
 
 class NetworkBuilder:
-    def __init__(self, json_config=None):
+    def __init__(self, json_config: Union[str, Dict] = None) -> None:
         if isinstance(json_config, str):
             self.config = json.loads(json_config)
         elif isinstance(json_config, dict):
@@ -32,15 +33,16 @@ class NetworkBuilder:
         else:
             raise ValueError("Invalid configuration format")
 
-    def build(self):
-        layers = []
+    def build(self) -> FeedForwardNetwork:
+        layers: List[Layer] = []
         for layer_conf in self.config.get("layers", []):
             perceptrons = self._build_perceptrons(layer_conf.get("perceptrons", []))
             layers.append(Layer(perceptrons))
-        return FeedForwardNetwork(layers)
+        loss_func = self.config.get("loss_func", MSELoss())
+        return FeedForwardNetwork(loss_func=loss_func, layers=layers)
 
-    def _build_perceptrons(self, perceptrons_config):
-        perceptrons = []
+    def _build_perceptrons(self, perceptrons_config: List[Dict]) -> List[Perceptron]:
+        perceptrons: List[Perceptron] = []
         for perceptron_conf in perceptrons_config:
             perceptron = Perceptron(
                 input_size=perceptron_conf["input_size"],
@@ -54,7 +56,8 @@ class NetworkBuilder:
             perceptrons.append(perceptron)
         return perceptrons
 
-    def _get_activation_function(self, name):
+    @staticmethod
+    def _get_activation_function(name: str):
         # Return the activation function based on the name
         name = name.lower()
         if name == "sigmoid":
@@ -75,7 +78,8 @@ class NetworkBuilder:
             )
             return LinearActivation()
 
-    def _get_loss_function(self, name):
+    @staticmethod
+    def _get_loss_function(name: str):
         # Return the loss function based on the name
         name = name.lower()
         if name == "difference":
@@ -92,28 +96,28 @@ class NetworkBuilder:
 
     ## LAYER LEVEL OPERATIONS ##
 
-    def add_layer(self, layer_config):
+    def add_layer(self, layer_config: Dict) -> None:
         self.config["layers"].append(layer_config)
 
-    def get_layer(self, layer_index):
+    def get_layer(self, layer_index: int) -> Dict:
         if layer_index < len(self.config["layers"]):
             return self.config["layers"][layer_index]
         else:
             raise IndexError("Layer index out of range")
 
-    def set_layer(self, layer_index, new_layer_config):
+    def set_layer(self, layer_index: int, new_layer_config: Dict) -> None:
         if layer_index < len(self.config["layers"]):
             self.config["layers"][layer_index] = new_layer_config
         else:
             raise IndexError("Layer index out of range")
 
-    def remove_layer(self, layer_index):
+    def remove_layer(self, layer_index: int) -> None:
         if layer_index < len(self.config["layers"]):
             self.config["layers"].pop(layer_index)
         else:
             raise IndexError("Layer index out of range")
 
-    def insert_layer(self, layer_index, layer_config):
+    def insert_layer(self, layer_index: int, layer_config: Dict) -> None:
         if layer_index <= len(self.config["layers"]):
             self.config["layers"].insert(layer_index, layer_config)
         else:
@@ -121,7 +125,7 @@ class NetworkBuilder:
 
     ## PERCEPTRON LEVEL OPERATIONS ##
 
-    def get_perceptron(self, layer_index, perceptron_index):
+    def get_perceptron(self, layer_index: int, perceptron_index: int) -> Dict:
         if layer_index < len(self.config["layers"]):
             layer = self.config["layers"][layer_index]
             if perceptron_index < len(layer["perceptrons"]):
@@ -131,7 +135,9 @@ class NetworkBuilder:
         else:
             raise IndexError("Layer index out of range")
 
-    def set_perceptron(self, layer_index, perceptron_index, new_perceptron_config):
+    def set_perceptron(
+        self, layer_index: int, perceptron_index: int, new_perceptron_config: Dict
+    ) -> None:
         if layer_index < len(self.config["layers"]):
             layer = self.config["layers"][layer_index]
             if perceptron_index < len(layer["perceptrons"]):
@@ -141,13 +147,17 @@ class NetworkBuilder:
         else:
             raise IndexError("Layer index out of range")
 
-    def add_perceptron_to_layer(self, layer_index, perceptron_config):
+    def add_perceptron_to_layer(
+        self, layer_index: int, perceptron_config: Dict
+    ) -> None:
         if layer_index < len(self.config["layers"]):
             self.config["layers"][layer_index]["perceptrons"].append(perceptron_config)
         else:
             raise IndexError("Layer index out of range")
 
-    def remove_perceptron_from_layer(self, layer_index, perceptron_index):
+    def remove_perceptron_from_layer(
+        self, layer_index: int, perceptron_index: int
+    ) -> None:
         if layer_index < len(self.config["layers"]):
             layer = self.config["layers"][layer_index]
             if perceptron_index < len(layer["perceptrons"]):
@@ -157,10 +167,10 @@ class NetworkBuilder:
         else:
             raise IndexError("Layer index out of range")
 
-    def to_json(self):
+    def to_json(self) -> str:
         return json.dumps(self.config, indent=4)
 
-    def from_json(self, json_config):
+    def from_json(self, json_config: str) -> None:
         self.config = json.loads(json_config)
 
 
