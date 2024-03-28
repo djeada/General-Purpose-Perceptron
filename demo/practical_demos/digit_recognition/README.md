@@ -2,7 +2,7 @@
 
 A 3-layer Multilayer Perceptron (MLP) is a type of neural network used for tasks like digit recognition. It consists of an input layer, two hidden layers, and an output layer. Each layer is made up of perceptrons (or neurons) that perform calculations and pass their results to the next layer.
 
-![digits](https://github.com/djeada/NeuraCommand/assets/37275728/02f3854d-7041-4018-a3d8-e98fdd98438b)
+![digit_prediction](https://github.com/djeada/NeuraCommand/assets/37275728/9b3b3e76-8ed9-483a-928a-0b877f041c90)
 
 ### Structure and Functions
 
