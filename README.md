@@ -1,5 +1,7 @@
 # NeuraCommand
 
+![neura_command](https://github.com/djeada/NeuraCommand/assets/37275728/bf778c51-e05f-4db4-9b36-1461462113dc)
+
 NeuraCommand is a very simple CLI tool designed for creating, training, and deploying neural networks. It provides a seamless interface for handling complex neural network architectures, including perceptrons with multiple layers. With NeuraCommand, users can efficiently load data, train models, and use them for predictions.
 
 ## Features
