@@ -37,37 +37,35 @@ class CreateNetworkMenu(Menu):
             "5. Save Network Configuration - Save the current network configuration to a file."
         )
         print("Enter 'back' to return to the main menu or 'exit' to quit.")
-        choice = input("Please enter your choice: ")
-        self.handle_selection(choice)
 
     def handle_selection(self, choice):
         if choice.lower() in self.options:
             self.options[choice.lower()]()
         else:
             print("Invalid choice. Please try again.")
-            self.display()
+            self.run()
 
     def add_layer(self):
         add_layer_menu = AddLayerMenu(parent_menu=self, network_builder=self.builder)
-        add_layer_menu.display()
+        add_layer_menu.run()
 
     def remove_layer(self):
         remove_layer_menu = RemoveLayerMenu(
             parent_menu=self, network_builder=self.builder
         )
-        remove_layer_menu.display()
+        remove_layer_menu.run()
 
     def modify_layer(self):
         modify_layer_menu = SelectLayerMenu(
             parent_menu=self, network_builder=self.builder
         )
-        modify_layer_menu.display()
+        modify_layer_menu.run()
 
     def save_network(self):
         save_network_menu = SaveNetworkMenu(
             parent_menu=self, network_builder=self.builder
         )
-        save_network_menu.display()
+        save_network_menu.run()
 
     def show_network(self):
         print(self.builder.to_json())
