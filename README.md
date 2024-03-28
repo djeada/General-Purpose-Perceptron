@@ -2,7 +2,7 @@
 
 ![neura_command](https://github.com/djeada/NeuraCommand/assets/37275728/bf778c51-e05f-4db4-9b36-1461462113dc)
 
-NeuraCommand is a very simple CLI tool designed for creating, training, and deploying neural networks. It provides a seamless interface for handling complex neural network architectures, including perceptrons with multiple layers. With NeuraCommand, users can efficiently load data, train models, and use them for predictions.
+NeuraCommand is a Python package and CLI tool designed for streamlined creation, training, and deployment of neural networks. It offers a clear-cut interface for managing complex neural architectures, including multi-layer perceptrons. The tool facilitates efficient data loading, model training, and application of models for predictive tasks. Aimed at providing practical functionality, NeuraCommand caters to both quick deployment needs and in-depth neural network experimentation.
 
 ## Features
 
