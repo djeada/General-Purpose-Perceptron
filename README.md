@@ -127,18 +127,6 @@ print(performance)  # Example loss: 0.05
 10. Iyengar, R. S. (2017). *Convolutional Neural Networks in Visual Computing: A Concise Guide*. CRC Press.
     - [Amazon](https://www.amazon.com/Convolutional-Networks-Visual-Computing-Concise/dp/1498749936)
 
-## TODO
-
-- **Implement a Tutorial for Non-Linear Datasets**: Develop a comprehensive tutorial focused on classifying non-linearly separable datasets using NeuraCommand. This tutorial should cover the end-to-end process, from data loading and preprocessing to model training and evaluation.
-
-`from sklearn.datasets import make_moons`
-
-- **Enhance CLI for Network Analytics**: Expand the command-line interface to include more detailed network analytics and diagnostics. This expansion should encompass advanced metrics, visualization tools for training progress, and detailed error analysis. The goal is to provide users with a more nuanced understanding of their model's performance and behavior.
-
-- **Develop Advanced Architecture Documentation**: Create additional documentation and practical examples for advanced neural network architectures, such as convolutional neural networks (CNNs), recurrent neural networks (RNNs), and Transformer models. This documentation should guide users through the intricacies of these architectures, their use cases, and how to implement them effectively in NeuraCommand.
-
-- **Integrate Advanced Optimization Techniques**: Plan the integration of advanced optimization techniques and learning rate schedules into NeuraCommand. This includes implementing adaptive learning rate algorithms, regularization methods, and dropout techniques to improve model robustness and performance.
-
 ## Contributing
 
 We warmly welcome contributions to NeuraCommand! Whether you're fixing bugs, adding new features, improving documentation, or spreading the word, your help is invaluable.
