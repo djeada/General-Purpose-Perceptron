@@ -1,12 +1,12 @@
 import json
 from pathlib import Path
 
-from app.menu.menu_interface import Menu
+from app.menu.menu_interface import AbstractMenu
 from app.network_builder.network_builder import NetworkBuilder
 
 
-class SaveNetworkMenu(Menu):
-    def __init__(self, parent_menu: Menu, network_builder: NetworkBuilder):
+class SaveNetworkMenu(AbstractMenu):
+    def __init__(self, parent_menu: AbstractMenu, network_builder: NetworkBuilder):
         super().__init__(parent_menu=parent_menu)
         self.network_builder = network_builder
         self.options = {
@@ -15,7 +15,7 @@ class SaveNetworkMenu(Menu):
             "back": self.go_back,
         }
 
-    def display(self):
+    def display_menu(self):
         print("\nNetwork Configuration Menu")
         print("1. View Current Network Configuration")
         print("2. Save Network Configuration to Disk")
@@ -24,7 +24,7 @@ class SaveNetworkMenu(Menu):
     def view_network_configuration(self):
         print("\nCurrent Network Configuration:")
         print(json.dumps(self.network_builder.to_json(), indent=4))
-        self.display()
+        self.display_menu()
 
     def save_network_configuration(self):
         file_path = input("Enter the file path to save the network configuration: ")
@@ -50,9 +50,9 @@ class SaveNetworkMenu(Menu):
     def go_back(self):
         self.parent_menu.run()
 
-    def handle_selection(self, choice):
+    def process_choice(self, choice):
         if choice.lower() in self.options:
             self.options[choice.lower()]()
         else:
             print("Invalid choice. Please try again.")
-            self.display()
+            self.display_menu()

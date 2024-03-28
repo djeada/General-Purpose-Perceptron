@@ -1,17 +1,17 @@
 from app.menu.load_network_menu.load_json_menu import LoadJsonMenu
 from app.menu.load_network_menu.load_pickle_menu import LoadPickleMenu
-from app.menu.menu_interface import Menu
+from app.menu.menu_interface import AbstractMenu
 
 
-class LoadNetworkMenu(Menu):
-    def display(self):
+class LoadNetworkMenu(AbstractMenu):
+    def display_menu(self):
         print("\n--- Load Network from Disk ---")
         print("1. Load network architecture from a JSON file")
         print("2. Load network object from a pickle file")
         print("Enter 'back' to return to the main menu.")
         # Other specific options related to loading a network can be added here
 
-    def handle_selection(self, choice):
+    def process_choice(self, choice):
         if choice == "1":
             self.load_from_json()
         elif choice == "2":

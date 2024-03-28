@@ -1,8 +1,8 @@
-from app.menu.menu_interface import Menu
+from app.menu.menu_interface import AbstractMenu
 
 
-class AddPerceptronMenu(Menu):
-    def display(self):
+class AddPerceptronMenu(AbstractMenu):
+    def display_menu(self):
         print("\nConfiguring a new Perceptron")
         perceptron_config = {}
 
@@ -18,11 +18,12 @@ class AddPerceptronMenu(Menu):
             perceptron_config["learning_rate"] = float(
                 input("Enter learning rate for Perceptron (default 0.1): ") or 0.1
             )
-
+            self.deactivate()
             return perceptron_config
 
         except ValueError:
             print("Invalid input. Please enter a valid number.")
+            self.deactivate()
             return None
 
     def get_activation_function_choice(self):
@@ -50,6 +51,6 @@ class AddPerceptronMenu(Menu):
         choice = input("Enter choice: ")
         return options.get(choice, "mse").lower()
 
-    def handle_selection(self, choice):
+    def process_choice(self, choice):
         # Implement logic for this menu
         pass

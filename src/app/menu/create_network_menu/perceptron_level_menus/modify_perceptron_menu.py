@@ -1,12 +1,12 @@
-from app.menu.menu_interface import Menu
+from app.menu.menu_interface import AbstractMenu
 
 
-class ModifyPerceptronMenu(Menu):
-    def __init__(self, parent_menu: Menu, network_builder):
+class ModifyPerceptronMenu(AbstractMenu):
+    def __init__(self, parent_menu: AbstractMenu, network_builder):
         super().__init__(parent_menu=parent_menu)
         self.network_builder = network_builder
 
-    def display(self):
+    def display_menu(self):
         print("\n--- Modifying an existing Perceptron ---")
         print("1. Modify input size")
         print("2. Modify output size")
@@ -15,9 +15,9 @@ class ModifyPerceptronMenu(Menu):
         print("5. Adjust learning rate")
         print("Enter 'back' to return to the previous menu.")
         choice = input("Please enter your choice: ")
-        self.handle_selection(choice)
+        self.process_choice(choice)
 
-    def handle_selection(self, choice):
+    def process_choice(self, choice):
         if choice == "1":
             self.modify_input_size()
         elif choice == "2":
@@ -32,7 +32,7 @@ class ModifyPerceptronMenu(Menu):
             self.parent_menu.run()
         else:
             print("Invalid choice. Please try again.")
-            self.display()
+            self.display_menu()
 
     def modify_input_size(self):
         perceptron = self.network_builder.get_perceptron(

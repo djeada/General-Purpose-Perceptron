@@ -6,12 +6,12 @@ from app.menu.create_network_menu.layer_level_menus.remove_layer_menu import (
     RemoveLayerMenu,
 )
 from app.menu.create_network_menu.save_network_menu import SaveNetworkMenu
-from app.menu.menu_interface import Menu
+from app.menu.menu_interface import AbstractMenu
 from app.network_builder.network_builder import NetworkBuilder
 
 
-class CreateNetworkMenu(Menu):
-    def __init__(self, parent_menu: Menu):
+class CreateNetworkMenu(AbstractMenu):
+    def __init__(self, parent_menu: AbstractMenu):
         super().__init__(parent_menu=parent_menu)
         self.builder = NetworkBuilder()
         self.options = {
@@ -23,7 +23,7 @@ class CreateNetworkMenu(Menu):
             "back": self.go_back,
         }
 
-    def display(self):
+    def display_menu(self):
         print("\n--- Network Configuration Menu ---")
         print("1. Add Layer - Add a new layer to the neural network.")
         print("2. Remove Layer - Remove an existing layer from the network.")
@@ -38,7 +38,7 @@ class CreateNetworkMenu(Menu):
         )
         print("Enter 'back' to return to the main menu or 'exit' to quit.")
 
-    def handle_selection(self, choice):
+    def process_choice(self, choice):
         if choice.lower() in self.options:
             self.options[choice.lower()]()
         else:

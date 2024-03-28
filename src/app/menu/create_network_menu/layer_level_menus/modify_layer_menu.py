@@ -4,13 +4,16 @@ from app.menu.create_network_menu.perceptron_level_menus.add_perceptron_menu imp
 from app.menu.create_network_menu.perceptron_level_menus.modify_perceptron_menu import (
     ModifyPerceptronMenu,
 )
-from app.menu.menu_interface import Menu
+from app.menu.menu_interface import AbstractMenu
 from app.network_builder.network_builder import NetworkBuilder
 
 
-class LayerMenu(Menu):
+class LayerMenu(AbstractMenu):
     def __init__(
-        self, parent_menu: Menu, network_builder: NetworkBuilder, layer_index: int
+        self,
+        parent_menu: AbstractMenu,
+        network_builder: NetworkBuilder,
+        layer_index: int,
     ):
         super().__init__(parent_menu=parent_menu)
         self.network_builder = network_builder
@@ -20,11 +23,13 @@ class LayerMenu(Menu):
             "2": self.remove_perceptron,
             "3": self.modify_perceptron,
             "4": self.display_layer,
-            "back": self.go_back,
+            "back": self.deactivate,
         }
 
-    def display(self):
-        print(f"\n--- Layer Configuration Menu for LAYER {self.layer_index} ---")
+    def display_menu(self):
+        print(
+            f"\n--- Layer Configuration AbstractMenu for LAYER {self.layer_index} ---"
+        )
         print("1. Add Perceptron - Add a new perceptron to the layer.")
         print("2. Remove Perceptron - Remove an existing perceptron from the layer.")
         print(
@@ -33,17 +38,17 @@ class LayerMenu(Menu):
         print("4. Display Layer - Show the current state of the layer.")
         print("Enter 'back' to return to the previous menu.")
 
-    def handle_selection(self, choice):
+    def process_choice(self, choice):
         if choice.lower() in self.options:
             self.options[choice.lower()]()
         else:
             print("Invalid choice. Please try again.")
-            self.display()
+            self.display_menu()
 
     def add_perceptron(self):
 
         add_perceptron_menu = AddPerceptronMenu()
-        perceptron_config = add_perceptron_menu.display()
+        perceptron_config = add_perceptron_menu.display_menu()
         if perceptron_config:
             layer = self.network_builder.get_layer(layer_index=self.layer_index)
             layer["perceptrons"].append(perceptron_config)
@@ -90,6 +95,3 @@ class LayerMenu(Menu):
         layer = self.network_builder.get_layer(layer_index=self.layer_index)
         print("Current layer configuration:")
         print(layer)
-
-    def go_back(self):
-        self.parent_menu.display()

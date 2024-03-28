@@ -1,14 +1,14 @@
 from app.menu.create_network_menu.layer_level_menus.modify_layer_menu import LayerMenu
-from app.menu.menu_interface import Menu
+from app.menu.menu_interface import AbstractMenu
 from app.network_builder.network_builder import NetworkBuilder
 
 
-class SelectLayerMenu(Menu):
-    def __init__(self, parent_menu: Menu, network_builder: NetworkBuilder):
+class SelectLayerMenu(AbstractMenu):
+    def __init__(self, parent_menu: AbstractMenu, network_builder: NetworkBuilder):
         super().__init__(parent_menu=parent_menu)
         self.network_builder = network_builder
 
-    def display(self):
+    def display_menu(self):
         print("\n--- Modifying a Layer in the Network ---")
         num_layers = self.get_num_layers()
 
@@ -27,11 +27,11 @@ class SelectLayerMenu(Menu):
             f"Currently, there are {num_layers} layers in the network."
         )
         choice = input("Layer index: ")
-        self.handle_selection(choice, num_layers)
+        self.process_choice(choice, num_layers)
 
-    def handle_selection(self, choice, num_layers):
+    def process_choice(self, choice, num_layers):
         if choice.lower() == "back":
-            self.go_back()
+            self.deactivate()
         else:
             self.process_layer_choice(choice, num_layers)
 
@@ -56,6 +56,3 @@ class SelectLayerMenu(Menu):
             layer_index=layer_index,
         )
         layer_menu.run()
-
-    def go_back(self):
-        self.parent_menu.run()

@@ -1,16 +1,16 @@
 from app.menu.create_network_menu.perceptron_level_menus.add_perceptron_menu import (
     AddPerceptronMenu,
 )
-from app.menu.menu_interface import Menu
+from app.menu.menu_interface import AbstractMenu
 from app.network_builder.network_builder import NetworkBuilder
 
 
-class AddLayerMenu(Menu):
-    def __init__(self, parent_menu: Menu, network_builder: NetworkBuilder):
+class AddLayerMenu(AbstractMenu):
+    def __init__(self, parent_menu: AbstractMenu, network_builder: NetworkBuilder):
         super().__init__(parent_menu=parent_menu)
         self.network_builder = network_builder
 
-    def display(self):
+    def display_menu(self):
         print("\nAdding a new layer to the network")
 
         try:
@@ -32,7 +32,7 @@ class AddLayerMenu(Menu):
 
             if same_config in ["yes", "y"]:
                 add_perceptron_menu = AddPerceptronMenu()
-                perceptron_config = add_perceptron_menu.display()
+                perceptron_config = add_perceptron_menu.display_menu()
                 if perceptron_config:
                     layer_config = {
                         "perceptrons": [perceptron_config] * num_perceptrons
@@ -42,19 +42,19 @@ class AddLayerMenu(Menu):
                 for i in range(num_perceptrons):
                     print(f"\nConfiguring Perceptron {i + 1}")
                     add_perceptron_menu = AddPerceptronMenu()
-                    perceptron_config = add_perceptron_menu.display()
+                    perceptron_config = add_perceptron_menu.display_menu()
                     if perceptron_config:
                         layer_config["perceptrons"].append(perceptron_config)
 
             self.network_builder.add_layer(layer_config)
             print(f"Layer added successfully. {self.network_builder.get_layer(-1)}")
-            self.parent_menu.display()
+            self.deactivate()
 
         except ValueError:
             print("Invalid input. Please enter a valid number.")
 
-    def handle_selection(self, choice):
+    def process_choice(self, choice):
         if choice.lower() == "back":
-            self.parent_menu.display()
+            self.deactivate()
         else:
-            self.display()
+            self.display_menu()
