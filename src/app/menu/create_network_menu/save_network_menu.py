@@ -12,7 +12,7 @@ class SaveNetworkMenu(AbstractMenu):
         self.options = {
             "1": self.view_network_configuration,
             "2": self.save_network_configuration,
-            "back": self.go_back,
+            "back": self.deactivate,
         }
 
     def display_menu(self):
@@ -46,9 +46,6 @@ class SaveNetworkMenu(AbstractMenu):
             print(f"Network configuration saved successfully to {path}")
         except Exception as e:
             print(f"An error occurred while saving the file: {e}")
-
-    def go_back(self):
-        self.parent_menu.run()
 
     def process_choice(self, choice):
         if choice.lower() in self.options:

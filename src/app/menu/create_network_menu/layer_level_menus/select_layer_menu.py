@@ -8,20 +8,23 @@ class SelectLayerMenu(AbstractMenu):
         super().__init__(parent_menu=parent_menu)
         self.network_builder = network_builder
 
-    def display_menu(self):
+    def display_menu(self) -> None:
+        """Displays the menu for selecting a layer to modify."""
         print("\n--- Modifying a Layer in the Network ---")
         num_layers = self.get_num_layers()
 
         if num_layers == 0:
             print("No layers to modify.")
-            self.go_back()
+            self.deactivate()
         else:
             self.prompt_layer_index(num_layers)
 
-    def get_num_layers(self):
+    def get_num_layers(self) -> int:
+        """Returns the number of layers in the network."""
         return len(self.network_builder.config["layers"])
 
-    def prompt_layer_index(self, num_layers):
+    def prompt_layer_index(self, num_layers: int) -> None:
+        """Prompts the user to enter the index of the layer to modify."""
         print(
             f"Enter the index of the layer to modify (0-based index).\n"
             f"Currently, there are {num_layers} layers in the network."
@@ -29,13 +32,15 @@ class SelectLayerMenu(AbstractMenu):
         choice = input("Layer index: ")
         self.process_choice(choice, num_layers)
 
-    def process_choice(self, choice, num_layers):
+    def process_choice(self, choice: str, num_layers: int) -> None:
+        """Processes the initial choice of the user."""
         if choice.lower() == "back":
             self.deactivate()
         else:
             self.process_layer_choice(choice, num_layers)
 
-    def process_layer_choice(self, choice, num_layers):
+    def process_layer_choice(self, choice: str, num_layers: int) -> None:
+        """Validates and processes the selected layer index."""
         try:
             layer_index = int(choice)
             if 0 <= layer_index < num_layers:
@@ -49,7 +54,8 @@ class SelectLayerMenu(AbstractMenu):
             print("Invalid input. Please enter a valid number.")
             self.prompt_layer_index(num_layers)
 
-    def modify_layer(self, layer_index):
+    def modify_layer(self, layer_index: int) -> None:
+        """Initiates the modification of the selected layer."""
         layer_menu = LayerMenu(
             parent_menu=self,
             network_builder=self.network_builder,

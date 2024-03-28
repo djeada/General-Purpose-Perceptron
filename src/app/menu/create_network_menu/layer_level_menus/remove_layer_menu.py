@@ -7,36 +7,36 @@ class RemoveLayerMenu(AbstractMenu):
         super().__init__(parent_menu=parent_menu)
         self.network_builder = network_builder
 
-    def display_menu(self):
+    def display_menu(self) -> None:
+        """Displays the menu for removing a layer from the network."""
         print("\nRemoving a layer from the network")
+        num_layers = len(self.network_builder.config["layers"])
 
-        try:
-            num_layers = len(self.network_builder.config["layers"])
-            if num_layers == 0:
-                print("No layers to remove.")
-                self.deactivate()
-                return
-
+        if num_layers == 0:
+            print("No layers to remove.")
+            self.deactivate()
+        else:
             print(f"Current number of layers: {num_layers}")
-            layer_index = int(
-                input("Enter the index of the layer to remove (0-based index): ")
+            print(
+                "Enter the index of the layer to remove (0-based index) or 'back' to go back."
             )
 
-            if 0 <= layer_index < num_layers:
-                self.network_builder.remove_layer(layer_index)
-                print(f"Layer at index {layer_index} removed successfully.")
-            else:
-                print(
-                    f"Invalid layer index. Please enter a number between 0 and {num_layers - 1}."
-                )
-
-            self.parent_menu.display_menu()
-
-        except ValueError:
-            print("Invalid input. Please enter a valid number.")
-
-    def process_choice(self, choice):
+    def process_choice(self, choice: str) -> None:
+        """Processes the user's choice for removing a layer or going back."""
         if choice.lower() == "back":
             self.deactivate()
         else:
-            self.display_menu()
+            try:
+                layer_index = int(choice)
+                num_layers = len(self.network_builder.config["layers"])
+                if 0 <= layer_index < num_layers:
+                    self.network_builder.remove_layer(layer_index)
+                    print(f"Layer at index {layer_index} removed successfully.")
+                else:
+                    print(
+                        f"Invalid index. Please enter a number between 0 and {num_layers - 1}."
+                    )
+            except ValueError:
+                print("Invalid input. Please enter a valid number.")
+            finally:
+                self.deactivate()

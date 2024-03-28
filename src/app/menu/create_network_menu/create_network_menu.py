@@ -20,7 +20,7 @@ class CreateNetworkMenu(AbstractMenu):
             "3": self.modify_layer,
             "4": self.show_network,
             "5": self.save_network,
-            "back": self.go_back,
+            "back": self.deactivate,
         }
 
     def display_menu(self):
@@ -69,6 +69,3 @@ class CreateNetworkMenu(AbstractMenu):
 
     def show_network(self):
         print(self.builder.to_json())
-
-    def go_back(self):
-        self.parent_menu.run()
