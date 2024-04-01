@@ -1,6 +1,8 @@
 # Compiled Python files
 __pycache__/
 *.py[cod]
+*.json
+*.pkl
 
 # Byte-compiled and optimized Python files
 *.pyo

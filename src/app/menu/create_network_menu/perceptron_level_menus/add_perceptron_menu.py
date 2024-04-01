@@ -21,7 +21,7 @@ class AddPerceptronMenu(AbstractMenu):
             self.deactivate()
             return perceptron_config
 
-        except ValueError:
+        except (ValueError, KeyError):
             print("Invalid input. Please enter a valid number.")
             self.deactivate()
             return None

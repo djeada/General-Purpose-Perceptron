@@ -1,20 +1,41 @@
-from abc import ABC, abstractmethod
+import logging
+from abc import ABC
+from typing import Dict, Union, Callable
 
 
 class AbstractMenu(ABC):
-    def __init__(self, parent_menu: "AbstractMenu" = None):
+    def __init__(
+        self,
+        name: str,
+        menu_options: Dict[str, Dict[str, Union[str, Callable]]],
+        parent_menu: "AbstractMenu" = None,
+    ):
+        self.logger = logging.getLogger(__name__)
+        self.name = name
+        self.menu_options = menu_options
         self.parent_menu = parent_menu
         self.is_active = True
+        self.result = None
 
-    @abstractmethod
-    def display_menu(self) -> None:
-        """Abstract method to display the menu."""
-        pass
+    def display_menu(self):
+        """Displays the menu options."""
+        print(f"\n--- {self.name} ---")
+        for i, (key, option) in enumerate(self.menu_options.items()):
+            print(f"{i + 1}. {option['text']}")
 
-    @abstractmethod
-    def process_choice(self, choice: str) -> None:
-        """Abstract method to handle the user's choice."""
-        pass
+    def process_choice(self, choice: str):
+        """Processes the user's choice and executes the corresponding action."""
+        if choice in self.menu_options:
+            self.menu_options[choice]["action"]()
+        else:
+            self.display_invalid_choice_message(choice)
+
+    def display_invalid_choice_message(self, choice: str):
+        """Displays an error message for invalid choices and lists valid options."""
+        print(f"\nInvalid choice '{choice}'. Please enter a valid option.")
+        print("Valid options are:")
+        for key in self.menu_options.keys():
+            print(f" - {key}")
 
     def run(self):
         """Runs the menu, displaying options and handling user input."""
@@ -23,10 +44,8 @@ class AbstractMenu(ABC):
             if not self.is_active:
                 break
             choice = input("Enter your choice: ").strip()
-            if choice.lower() == "back" and self.parent_menu:
-                break
             self.process_choice(choice)
 
     def deactivate(self) -> None:
-        """Method to deactivate the menu."""
+        """Deactivates the menu."""
         self.is_active = False

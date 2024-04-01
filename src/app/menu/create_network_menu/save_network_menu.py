@@ -16,18 +16,24 @@ class SaveNetworkMenu(AbstractMenu):
         }
 
     def display_menu(self):
-        print("\nNetwork Configuration Menu")
+        print("\n--- Save Network Menu---")
         print("1. View Current Network Configuration")
         print("2. Save Network Configuration to Disk")
-        print("Enter 'back' to return to the main menu or 'exit' to quit.")
+        print("Enter 'back' to return to the parent menu.")
 
     def view_network_configuration(self):
         print("\nCurrent Network Configuration:")
         print(json.dumps(self.network_builder.to_json(), indent=4))
-        self.display_menu()
 
     def save_network_configuration(self):
-        file_path = input("Enter the file path to save the network configuration: ")
+        default_path = "neura_config.json"
+        file_path = input(
+            f"Enter the file path to save the network configuration (default: {default_path}): "
+        )
+
+        if not file_path:
+            file_path = default_path
+
         path = Path(file_path)
 
         if path.exists():
@@ -52,4 +58,3 @@ class SaveNetworkMenu(AbstractMenu):
             self.options[choice.lower()]()
         else:
             print("Invalid choice. Please try again.")
-            self.display_menu()

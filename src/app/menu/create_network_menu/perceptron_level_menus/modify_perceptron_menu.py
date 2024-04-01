@@ -32,7 +32,7 @@ class ModifyPerceptronMenu(AbstractMenu):
             "3": self.change_activation_function,
             "4": self.change_loss_function,
             "5": self.adjust_learning_rate,
-            "back": self.parent_menu.run,
+            "back": self.deactivate,
         }
 
         action = options.get(choice)

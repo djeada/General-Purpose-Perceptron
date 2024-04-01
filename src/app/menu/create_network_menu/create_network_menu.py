@@ -36,7 +36,7 @@ class CreateNetworkMenu(AbstractMenu):
         print(
             "5. Save Network Configuration - Save the current network configuration to a file."
         )
-        print("Enter 'back' to return to the main menu or 'exit' to quit.")
+        print("Enter 'back' to return to the parent menu.")
 
     def process_choice(self, choice):
         if choice.lower() in self.options:
