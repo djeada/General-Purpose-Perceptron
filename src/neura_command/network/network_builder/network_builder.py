@@ -170,8 +170,10 @@ class NetworkBuilder:
     def to_json(self) -> str:
         return json.dumps(self.config, indent=4)
 
-    def from_json(self, json_config: str) -> None:
-        self.config = json.loads(json_config)
+    @classmethod
+    def from_json(cls, json_config: str) -> "NetworkBuilder":
+        config = json.loads(json_config)
+        return NetworkBuilder(json_config=config)
 
 
 if __name__ == "__main__":

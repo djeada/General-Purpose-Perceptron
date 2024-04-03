@@ -22,6 +22,20 @@ class FeedForwardNetwork:
             self.loss_func.__class__.__name__,
         )
 
+    @property
+    def input_size(self) -> int:
+        if self.layers:
+            return self.layers[0].input_size
+        else:
+            return 0
+
+    @property
+    def output_size(self) -> int:
+        if self.layers:
+            return self.layers[-1].output_size
+        else:
+            return 0
+
     def add_layer(self, layer: Layer, index: Optional[int] = None) -> None:
         if index is not None:
             self._validate_index(index, allow_equal=True)
@@ -73,6 +87,9 @@ class FeedForwardNetwork:
         for layer in self.layers:
             output = layer.forward(output)
         return output
+
+    def predict(self, X: np.ndarray) -> np.ndarray:
+        return self.forward(X)
 
     def backward(self, y_true: np.ndarray, y_pred: np.ndarray) -> None:
         error = self.loss_func.derivative(y_pred, y_true)

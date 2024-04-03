@@ -1,46 +1,34 @@
-from app.menu.menu_interface import AbstractMenu
+from app.menu.menu_interface import AbstractMenu, ChoiceBasedMenu
+from neura_command.network.network_builder.network_builder import NetworkBuilder
 
 
-class ModifyPerceptronMenu(AbstractMenu):
+class ModifyPerceptronMenu(ChoiceBasedMenu):
     def __init__(
         self,
         parent_menu: AbstractMenu,
-        network_builder,
+        network_builder: NetworkBuilder,
         layer_index: int,
         perceptron_index: int,
     ):
-        super().__init__(parent_menu=parent_menu)
+        menu_options = {
+            "1": {"text": "Modify input size", "action": self.modify_input_size},
+            "2": {"text": "Modify output size", "action": self.modify_output_size},
+            "3": {
+                "text": "Change activation function",
+                "action": self.change_activation_function,
+            },
+            "4": {"text": "Change loss function", "action": self.change_loss_function},
+            "5": {"text": "Adjust learning rate", "action": self.adjust_learning_rate},
+            "back": {"text": "Return to the previous menu", "action": self.deactivate},
+        }
+        super().__init__(
+            parent_menu=parent_menu,
+            name="Modify Perceptron Menu",
+            menu_options=menu_options,
+        )
         self.network_builder = network_builder
         self.layer_index = layer_index
         self.perceptron_index = perceptron_index
-
-    def display_menu(self) -> None:
-        """Displays the menu for modifying an existing Perceptron."""
-        print("\n--- Modifying an existing Perceptron ---")
-        print("1. Modify input size")
-        print("2. Modify output size")
-        print("3. Change activation function")
-        print("4. Change loss function")
-        print("5. Adjust learning rate")
-        print("Enter 'back' to return to the previous menu.")
-
-    def process_choice(self, choice: str) -> None:
-        """Processes the user's choice for perceptron modification."""
-        options = {
-            "1": self.modify_input_size,
-            "2": self.modify_output_size,
-            "3": self.change_activation_function,
-            "4": self.change_loss_function,
-            "5": self.adjust_learning_rate,
-            "back": self.deactivate,
-        }
-
-        action = options.get(choice)
-        if action:
-            action()
-        else:
-            print("Invalid choice. Please try again.")
-            self.display_menu()
 
     def modify_input_size(self):
         perceptron = self.network_builder.get_perceptron(
