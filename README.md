@@ -22,11 +22,21 @@ NeuraCommand is a Python package and CLI tool designed for streamlined creation,
 
 ## Installation
 
-Install NeuraCommand using pip:
+*Note*: It's important to run these commands in the root directory of the repository for the installation to work correctly.
+
+To install NeuraCommand, open your terminal or command prompt and run the following command:
 
 ```shell
-pip install gp_perceptron_framework
+pip install neura_command
 ```
+
+After installing, you can verify the installation and check the installed version of NeuraCommand by running:
+
+```shell
+neura_command --version
+```
+
+This command should return the version number of NeuraCommand, indicating that it has been installed successfully.
 
 ## Usage of NeuraCommand CLI
 
