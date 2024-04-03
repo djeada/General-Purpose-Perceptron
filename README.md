@@ -40,44 +40,69 @@ This command should return the version number of NeuraCommand, indicating that i
 
 ## Usage of NeuraCommand CLI
 
-Basic usage of NeuraCommand:
+The NeuraCommand CLI offers three main actions: `create`, `train`, and `predict`. Each action is equipped with specific options to tailor its functionality.
 
 ```
-neuracommand [-h] {create,train,predict} ...
+python main.py --action {create,train,predict}
 ```
+
+Options:
+
+- `-h`, `--help`: Show the help message and exit.
+- `--action {create,train,predict}`: Choose the action to perform.
 
 ### Create
-Create a new neural network from a JSON configuration file.
+
+Use the `create` action to create a new neural network. You need to provide a JSON file describing the network architecture and specify the output path for the created model.
 
 ```
-neuracommand create <config> [--output <output_path>]
+python main.py --action create --network-architecture-json path/to/architecture.json --model-pkl path/to/output_model.pkl
 ```
 
-- <config>: Path to the neural network configuration file (JSON format).
-- --output <output_path>: Path to save the created network (default: network.pkl).
+Options:
+
+- `--network-architecture-json`: Path to the JSON file that describes the neural network's architecture. This file should detail the layers, nodes, activation functions, etc.
+- `--model-pkl`: [Optional] Destination path for saving the serialized neural network model (.pkl format). Defaults to 'network.pkl' if not specified.
 
 ### Train
-Train a neural network from a specified file.
+Use the `train` action to train an existing network. You must provide the path to the network's `.pkl` file, input features, target values, number of epochs, and output model path (if not overwriting).
+
+Example:
 
 ```
-neuracommand train <network> --input_x <input_x_path> --input_y <input_y_path> [--epochs <num_epochs>] [--overwrite]
+python main.py --action train --model-pkl path/to/network.pkl --features-csv path/to/features.csv --targets-csv path/to/targets.csv --epochs 100 --output-model-pkl path/to/output_model.pkl
 ```
 
-- <network>: Path to the neural network file (e.g., .pkl).
-- --input_x <input_x_path>: Path to the input features file (CSV format).
-- --input_y <input_y_path>: Path to the target values file (CSV format).
-- --epochs <num_epochs>: Number of training epochs (default: 100).
-- --overwrite: Overwrite the existing network file after training.
+Options:
+
+- `--model-pkl`: Path to the neural network file (.pkl) to be trained.
+- `--features-csv`: Path to the CSV file containing the input features for the training.
+- `--targets-csv`: Path to the CSV file containing the target values for the training.
+- `--epochs`: [Optional] Number of training epochs. Defaults to 100.
+- `--overwrite`: [Optional] Flag to indicate if the existing .pkl file should be overwritten after training.
+- `--output-model-pkl`: [Optional] Custom path to save the trained network model file (.pkl). Required if --overwrite is not set.
 
 ### Predict
-Make predictions using a trained neural network.
+Use the predict action to make predictions using a trained model. You need to provide the model `.pkl` file and input data. Additionally, specify how you want to output the predictions.
+
+Example:
 
 ```
-neuracommand predict <network> --input <input_path>
+python main.py --action predict --model-pkl path/to/model.pkl --input-csv path/to/input.csv --output-mode display
 ```
 
-- <network>: Path to the neural network file (e.g., .pkl).
-- --input <input_path>: Path to the input file for making predictions (CSV format).
+To save predictions to a CSV file:
+
+```
+python main.py --action predict --model-pkl path/to/model.pkl --input-csv path/to/input.csv --output-mode save --output-csv path/to/output.csv
+```
+
+Options:
+
+- `--model-pkl`: Path to the neural network file (.pkl) used for making predictions.
+- `--input-csv`: Path to the input CSV file. The format of this file should match the input requirements of the model.
+- `--output-mode`: Choose 'display' to show predictions on stdout or 'save' to save them to a CSV file.
+- `--output-csv`: [Required if output-mode is 'save'] Path to save the prediction results as a CSV file.
 
 ## Quickstart for NeuraCommand package
 
