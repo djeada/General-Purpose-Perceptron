@@ -78,7 +78,7 @@ def calculate_accuracy(
     """
     Calculate and return the accuracy of the network.
     """
-    predicted_labels = np.argmax(network.forward(X_test), axis=1)
+    predicted_labels = np.argmax(network.predict(X_test), axis=1)
     true_labels = np.argmax(test_labels, axis=1)
     correct_predictions = np.sum(predicted_labels == true_labels)
     return (correct_predictions / len(true_labels)) * 100
@@ -99,7 +99,7 @@ def display_sample_predictions(
     for i, index in enumerate(sample_indices):
         image = X_test[index].reshape(28, 28)  # Ensure X_test is a NumPy array
         true_label = np.argmax(test_labels[index])
-        predicted_label = np.argmax(network.forward(X_test[index].reshape(1, -1)))
+        predicted_label = np.argmax(network.predict(X_test[index].reshape(1, -1)))
         plt.subplot(2, num_samples // 2, i + 1)
         plt.imshow(image, cmap="gray")
         plt.title(f"Pred: {predicted_label}\nTrue: {true_label}", fontsize=10)
