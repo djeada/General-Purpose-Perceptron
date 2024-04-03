@@ -109,27 +109,37 @@ Options:
 Example code for using NeuraCommand in Python:
 
 ```python
-from gp_perceptron_framework import GeneralPurposePerceptron
+import numpy as np
 
-# Initialize a network
-network = GeneralPurposePerceptron()
+from neura_command.network.network_builder.string_network_builder import (
+    StringNetworkBuilder,
+)
 
-# Add layers
-network.add_layer(neuron_count=5)  # Hidden layer
-network.add_layer(neuron_count=3)  # Output layer
+# Example usage
+builder = StringNetworkBuilder()
+builder.add_layer(3, 5, "relu")  # First hidden layer
+builder.add_layer(5, 3, "relu")  # Second hidden layer (output layer)
+
+# Initialize the network using the builder
+net = builder.build()
+
+# Prepare the dataset for training
+data_samples = [([0.1, 0.2, 0.3], [0, 1, 0])]  # Example: [(input_data, target_data)]
+X = np.array([sample[0] for sample in data_samples])
+Y = np.array([sample[1] for sample in data_samples])
 
 # Train the network
-data = [([0.1, 0.2, 0.3], [0, 1, 0])]  # (input, output) pairs
-network.train(data, epochs=10)
+net.train(X, Y, epochs=10, batch_size=1)
 
-# Predictions
-inputs = [0.1, 0.2, 0.3]
-outputs = network.predict(inputs)
-print(outputs)  # Example output: [0.2, 0.8, 0.1]
+# Make predictions
+test_input = np.array([[0.1, 0.2, 0.3]])
+predicted_output = net.predict(test_input)
+print(f"Predicted Output: {predicted_output}")
 
-# Evaluate performance
-performance = network.evaluate(data)
-print(performance)  # Example loss: 0.05
+# Using the evaluate function
+predicted_outputs = net.predict(X)
+mse = np.mean((predicted_outputs - Y) ** 2)
+print(f"Mean Squared Error: {mse}%")
 ```
 
 ## References
